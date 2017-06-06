@@ -1,6 +1,6 @@
 var USER_SPEED = "medium";
 
-var margin = {top: 105, right: 50, bottom: 50, left: 145 },
+var margin = {top: 105, right: 50, bottom: 50, left: 245 },
     width = 1090 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom,
     padding = 3, // separation between nodes
