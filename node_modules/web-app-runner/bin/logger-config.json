@@ -1,0 +1,18 @@
+{
+    "appenders":[ 
+        {
+            "typeName":"RollingFileAppender",
+            "level":"info"
+        },
+        {
+            "typeName":"ConsoleAppender",
+            "level":"fatal"
+        }
+    ],
+    "loggers":[
+        {
+            "category":"all",
+            "level":"info"
+        }
+    ]
+}
