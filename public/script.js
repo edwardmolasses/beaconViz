@@ -1,10 +1,10 @@
 var USER_SPEED = "medium";
 
 var margin = {top: 105, right: 50, bottom: 50, left: 245 },
-    width = 1090 - margin.left - margin.right,
+    width = 450 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom,
     padding = 3, // separation between nodes
-    radius = 3.8,
+    radius = 5.8,
     damper = 0.9;
 
 // var width = 780,
@@ -110,7 +110,7 @@ var notes_index = 0;
 // 		foci[code.index] = {x: 250 * Math.cos(i * theta)+380, y: 250 * Math.sin(i * theta)+365 };
 // 	}
 // });
-
+// debugger;
 var x = d3.scale.ordinal()
     .rangePoints([0, width]);
 var xAxis = d3.svg.axis()
@@ -147,18 +147,20 @@ var svg = d3.select("#chart").append("svg")
 
 
 // Load data and let's do it.
-d3.tsv("data/whatwhere.tsv", function(error, data) {
+d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
 
     //
-    // Axes
+    // Axes (note: placing the text labels on x and y axes)
     //
     x.domain(d3.map(data, function(d) { return d.grp; }).keys());
+    // note: first place the location labels on y
     svg.append("g")
         .attr("class", "y axis")
         .attr("transform", "translate(-70,-10)")
         .call(yAxis)
         .selectAll(".tick text")
         .call(wrap, 80);
+    // note: then place the work type labels on x
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0,-100)")
@@ -208,6 +210,7 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
 
     // A node for each person's schedule
     var nodes = sched_objs.map(function(o,i) {
+        // debugger;
         var init = o[0];
         var init_x = x(init.grp) + Math.random();
         var init_y = y(init.where) + Math.random();
@@ -245,7 +248,6 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
         .enter().append("circle")
         .attr("r", function(d) { return d.radius; })
         .style("fill", function(d) { return d.color; });
-
 
 
     // Update nodes based on activity and duration
@@ -325,12 +327,9 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
             }
         }
 
-
         setTimeout(timer, speeds[USER_SPEED]);
     }
     setTimeout(timer, speeds[USER_SPEED]);
-
-
 
 
     function tick(e) {

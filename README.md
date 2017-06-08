@@ -2,4 +2,4 @@
 
 ## Run
 
-Use node server.js
+> node server.js
