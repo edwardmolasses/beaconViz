@@ -16,7 +16,7 @@ var USER_SPEED = "medium";
 var margin = {top: 105, right: 50, bottom: 50, left: 245 },
     width = 1800 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom,
-    padding = 100, // some kind of animation parameter for the effect of collision between nodes ???
+    padding = 3, // some kind of animation parameter for the effect of collision between nodes ???
     radius = 5.8,
     damper = 0.9;
 
