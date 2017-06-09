@@ -6,7 +6,9 @@
     * tick(e) explanation:
         * e is a custom event object passed to your tick function every time it is called
         * e.alpha is the force layout's current alpha value, which by default starts at 0.1 and gets reduced (according to the friction parameter) at each tick until it drops below 0.005 and the layout freezes
-            * i.e. alpha is a cooling parameter which controls the layout temperature: as the physical simulation converges on a stable layout, the temperature drops, causing nodes to move more slowly. Eventually, alpha drops below a threshold and the simulation stops completely
+            * i.e. alpha is a cooling parameter which controls the layout temperature: as the physical simulation
+              converges on a stable layout, the temperature drops, causing nodes to move more slowly.
+              Eventually, alpha drops below a threshold and the simulation stops completely
 */
 
 var USER_SPEED = "medium";
@@ -14,7 +16,7 @@ var USER_SPEED = "medium";
 var margin = {top: 105, right: 50, bottom: 50, left: 245 },
     width = 1800 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom,
-    padding = 100, // some kind of animation parameter for separation between nodes ???
+    padding = 100, // some kind of animation parameter for the effect of collision between nodes ???
     radius = 5.8,
     damper = 0.9;
 
