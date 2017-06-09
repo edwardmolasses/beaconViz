@@ -1,20 +1,20 @@
 /*
-  HOW DOES THIS ALL WORK?
-- timer operates on the force layout data using the current displayed time, updating it based on the .tsv data for the currently displayed time
-- the tick function gets called when something in the data changes - it will check the current force layout data (that is being updated by timer) and then update the positions of the rendered circles accordingly
-    - force layout uses the tick updates to animate the circles using the force collision physics model
-    - tick(e) explanation:
-        - e is a custom event object passed to your tick function every time it is called
-        - e.alpha is the force layout's current alpha value, which by default starts at 0.1 and gets reduced (according to the friction parameter) at each tick until it drops below 0.005 and the layout freezes
-            - i.e. alpha is a cooling parameter which controls the layout temperature: as the physical simulation converges on a stable layout, the temperature drops, causing nodes to move more slowly. Eventually, alpha drops below a threshold and the simulation stops completely
+   HOW DOES THIS ALL WORK?
+ * timer operates on interval on the force layout data, updating it based on the .tsv data for the currently displayed time
+ * the tick function gets called when something in the data changes; it will check the current force layout data (that is being updated by timer) and then update the positions of the rendered circles accordingly
+    * force layout uses the tick updates to animate the circles using the force collision physics model
+    * tick(e) explanation:
+        * e is a custom event object passed to your tick function every time it is called
+        * e.alpha is the force layout's current alpha value, which by default starts at 0.1 and gets reduced (according to the friction parameter) at each tick until it drops below 0.005 and the layout freezes
+            * i.e. alpha is a cooling parameter which controls the layout temperature: as the physical simulation converges on a stable layout, the temperature drops, causing nodes to move more slowly. Eventually, alpha drops below a threshold and the simulation stops completely
 */
 
 var USER_SPEED = "medium";
 
 var margin = {top: 105, right: 50, bottom: 50, left: 245 },
-    width = 450 - margin.left - margin.right,
+    width = 1800 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom,
-    padding = 3, // separation between nodes
+    padding = 100, // some kind of animation parameter for separation between nodes ???
     radius = 5.8,
     damper = 0.9;
 
@@ -158,7 +158,7 @@ var svg = d3.select("#chart").append("svg")
 
 
 // Load data and let's do it.
-d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
+d3.tsv("data/whatwhere.tsv", function(error, data) {
 
     //
     // Axes (note: placing the text labels on x and y axes)
@@ -345,12 +345,12 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
 
 
     function tick(e) {
-        debugger;
+        // debugger;
         var k = 0.1 * e.alpha;
 
         // Push nodes toward their designated focus.
         nodes.forEach(function(o, i) {
-            debugger;
+            // debugger;
             var curr_act = o.act;
 
             if (curr_act == "w") {
