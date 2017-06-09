@@ -1,3 +1,14 @@
+/*
+  HOW DOES THIS ALL WORK?
+- timer operates on the force layout data using the current displayed time, updating it based on the .tsv data for the currently displayed time
+- the tick function gets called when something in the data changes - it will check the current force layout data (that is being updated by timer) and then update the positions of the rendered circles accordingly
+    - force layout uses the tick updates to animate the circles using the force collision physics model
+    - tick(e) explanation:
+        - e is a custom event object passed to your tick function every time it is called
+        - e.alpha is the force layout's current alpha value, which by default starts at 0.1 and gets reduced (according to the friction parameter) at each tick until it drops below 0.005 and the layout freezes
+            - i.e. alpha is a cooling parameter which controls the layout temperature: as the physical simulation converges on a stable layout, the temperature drops, causing nodes to move more slowly. Eventually, alpha drops below a threshold and the simulation stops completely
+*/
+
 var USER_SPEED = "medium";
 
 var margin = {top: 105, right: 50, bottom: 50, left: 245 },
@@ -213,6 +224,7 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
         // debugger;
         var init = o[0];
         var init_x = x(init.grp) + Math.random();
+        // add some randomization to the placement of the node in relation to exact .grp location on ordinal scale x-axis
         var init_y = y(init.where) + Math.random();
         if (init.act == "w") {
             colorByOcc(init.grp)
@@ -333,10 +345,12 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
 
 
     function tick(e) {
+        debugger;
         var k = 0.1 * e.alpha;
 
         // Push nodes toward their designated focus.
         nodes.forEach(function(o, i) {
+            debugger;
             var curr_act = o.act;
 
             if (curr_act == "w") {
@@ -344,7 +358,10 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
             } else {
                 o.color = "#cccccc";
             }
-
+            // o.grp is 11-19 on the ordinal scale
+            // x(o.grp) places us on the ordinal scale x-axis
+            // o.x is the initial x position with a small randomization
+            // k is our alpha (cooling parameter) with small adjustment
             o.x += (x(o.grp) - o.x) * k * damper;
             o.y += (y(o.where) - o.y) * k * damper;
 
