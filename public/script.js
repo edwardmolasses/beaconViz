@@ -366,7 +366,6 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
             // k is our alpha (cooling parameter) with small adjustment
             o.x += (x(o.grp) - o.x) * k * damper;
             o.y += (y(o.where) - o.y) * k * damper;
-
         });
 
         circle
@@ -404,8 +403,6 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
             });
         };
     }
-
-
 
 
     // Speed toggle
