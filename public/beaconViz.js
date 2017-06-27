@@ -47,11 +47,16 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     });
 
     function timer() {
-        curr_minute += 1;
-        d3.select("#current_time").text(moment(minDate, dateFormat).add(curr_minute, 'minutes').format('h:mma'));
+        if (moment(minDate, dateFormat).add(curr_minute, 'minutes').isAfter(moment(maxDate, dateFormat))) {
+            curr_minute = 0;
+        } else {
+            curr_minute += 1;
+        }
+        d3.select("#current_time").text(moment(minDate, dateFormat).add(curr_minute, 'minutes').format('dddd h:mma'));
         setTimeout(timer, speed);
     }
     setTimeout(timer, speed);
+
    // var x = d3.scale.ordinal()
    //     .domain(Object.keys(beacons))
    //     .rangePoints([0, width]);
