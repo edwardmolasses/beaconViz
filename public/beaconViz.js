@@ -1,5 +1,5 @@
-var margin = {top: 105, right: 50, bottom: 50, left: 145 };
 var browserWidth = document.body.clientWidth;
+var margin = {top: 105, right: 50, bottom: 50, left: 145 };
 var width = browserWidth - margin.left - margin.right;
 var height = 450 - margin.top - margin.bottom;
 var beaconList = [];
@@ -28,6 +28,8 @@ var regularSpeed = 100;
 var speed = regularSpeed;
 var curMinute = 0;
 var currTimeMoment;
+var activeUsers = [];
+var nodes = [];
 
 d3.csv("data/qm_beacons.csv", function(error, data) {
 
@@ -48,6 +50,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         }
         data[index]['Date'] = item['Date'];
     });
+    // console.log('%c[beaconViz.js:52]\ndata \n(see below): ','font-size:25px;color:tomato;'); console.log(data);
 
     //                              _
     //  _ __ ___   __ _ _ __  _ __ (_)_ __   __ _
@@ -60,7 +63,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         return;
     };
     var force = d3.layout.force()
-        .nodes(data)
+        .nodes(nodes)
         .size([width, height])
         .gravity(0)
         .charge(0)
@@ -94,26 +97,46 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             curMinute += 1;
         }
         d3.select("#current_time").text(currTimeMoment.format('dddd h:mma'));
+        // debugger;
+        data.forEach(function(item){
+            if (moment(item['Date'], dateFormat).isSame(currTimeMoment)) {
+            // debugger;
+                console.log('%c[beaconViz.js:103]\nitem is at currentTime \n(see below): ','font-size:25px;color:thistle;'); console.log(item);
+                // if (item['Attendee ID']) {
+                //     activeUsers[item['Attendee ID']] = {
+                //         attendeeId: item['Attendee ID'],
+                //         uuid: item['UUID'],
+                //         beaconId: item['Beacon ID'],
+                //         date: item['Date'],
+                //         email: item['Email'],
+                //         firstName: item['First Name'],
+                //         lastName: item['Last Name'],
+                //         majorNumber: item['Major Number'],
+                //         minorNumber: item['Minor Number']
+                //     };
+                // }
+            }
+            // console.log('%c[beaconViz.js:116]\nactiveUsers \n(see below): ','font-size:25px;color:teal;'); console.log(activeUsers);
+        });
+
         setTimeout(timer, speed);
     }
     setTimeout(timer, speed);
 
+    //                     _
+    //  _ __ ___ _ __   __| | ___ _ __
+    // | '__/ _ | '_ \ / _` |/ _ | '__|
+    // | | |  __| | | | (_| |  __| |
+    // |_|  \___|_| |_|\__,_|\___|_|
 
-   //                     _
-   //  _ __ ___ _ __   __| | ___ _ __
-   // | '__/ _ | '_ \ / _` |/ _ | '__|
-   // | | |  __| | | | (_| |  __| |
-   // |_|  \___|_| |_|\__,_|\___|_|
-
-   // create the svg viewport
-   var svgContainer = d3.select("body").append("svg")
+    // create the svg viewport
+    var svgContainer = d3.select("body").append("svg")
                                        .attr("width", width)
                                        .attr("height", height);
 
-
-   // create an svg group element for the axis elements and call the xaxis function
-   var xAxisLabel2y = margin.top + 10;
-   var xAxisGroup = svgContainer.append("g")
+    // create an svg group element for the axis elements and call the xaxis function
+    var xAxisLabel2y = margin.top + 10;
+    var xAxisGroup = svgContainer.append("g")
                                  .attr("class", "x axis")
                                  .call(xAxis)
                                  .attr("transform", "translate(" + margin.left + ",0)");
