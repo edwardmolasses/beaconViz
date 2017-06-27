@@ -24,6 +24,9 @@ var fixYear = function(date) {
 var minDate;
 var maxDate;
 var dateFormat = 'YYYY-MM-DD HH:mm';
+var regularSpeed = 100;
+var speed = regularSpeed;
+var curr_minute = 0;
 
 d3.csv("data/qm_beacons.csv", function(error, data) {
    //                                         _       _
@@ -41,9 +44,14 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             maxDate = moment.max(moment(maxDate, dateFormat), moment(item['Date'], dateFormat)).format(dateFormat);
         }
         data[index]['Date'] = item['Date'];
-   });
-console.log('%c[beaconViz.js:4]\ndata \n(see below): ','font-size:25px;color:yellowgreen;'); console.log(data);
+    });
 
+    function timer() {
+        curr_minute += 1;
+        d3.select("#current_time").text(moment(minDate, dateFormat).add(curr_minute, 'minutes').format('h:mma'));
+        setTimeout(timer, speed);
+    }
+    setTimeout(timer, speed);
    // var x = d3.scale.ordinal()
    //     .domain(Object.keys(beacons))
    //     .rangePoints([0, width]);
