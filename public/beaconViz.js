@@ -68,12 +68,12 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .on("tick", tick)
         .start();
 
-   //Create the Scale we will use for the Axis
+   // create the scale we will use for the axis
    var axisScale = d3.scale.ordinal()
                     .domain(Object.keys(beaconList))
                     .rangePoints([0, width - (margin.left + margin.right)]);
 
-   //Create the Axis
+   // create the axis
    var xAxis = d3.svg.axis()
                     .scale(axisScale)
                     .tickFormat(function(d) {
@@ -98,28 +98,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     }
     setTimeout(timer, speed);
 
-   // var x = d3.scale.ordinal()
-   //     .domain(Object.keys(beacons))
-   //     .rangePoints([0, width]);
-   // var xAxis = d3.svg.axis()
-   //     .scale(x)
-   //     .tickFormat(function(d) {
-   //        return beacons[d]['id'];
-   //     })
-   //     .orient("top");
-   //
-   // // Start the SVG
-   // var svg = d3.select("#chart").append("svg")
-   //     .attr("width", 2000)
-   //     .attr("height", height + margin.top + margin.bottom)
-   //     .append("g")
-   //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-   //
-   // svg.append("g")
-   //     .attr("class", "x axis")
-   //     .attr("transform", "translate(0,-100)")
-   //     .call(xAxis);
-
 
    //                     _
    //  _ __ ___ _ __   __| | ___ _ __
@@ -127,13 +105,13 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
    // | | |  __| | | | (_| |  __| |
    // |_|  \___|_| |_|\__,_|\___|_|
 
-   //Create the SVG Viewport
+   // create the svg viewport
    var svgContainer = d3.select("body").append("svg")
                                        .attr("width", width)
                                        .attr("height", height);
 
 
-   //Create an SVG group Element for the Axis elements and call the xAxis function
+   // create an svg group element for the axis elements and call the xaxis function
    var xAxisLabel2y = margin.top + 10;
    var xAxisGroup = svgContainer.append("g")
                                  .attr("class", "x axis")

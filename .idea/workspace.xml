@@ -26,8 +26,8 @@
       <file leaf-file-name="beaconViz.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/beaconViz.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+            <state relative-caret-position="662">
+              <caret line="98" column="29" selection-start-line="98" selection-start-column="29" selection-end-line="98" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -251,12 +251,12 @@
       <workItem from="1498229762013" duration="392000" />
       <workItem from="1498240787187" duration="325000" />
       <workItem from="1498498150910" duration="4571000" />
-      <workItem from="1498512835056" duration="25380000" />
+      <workItem from="1498512835056" duration="25486000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61481000" />
+    <option name="totallyTimeSpent" value="61587000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1920" height="1080" extended-state="6" />
@@ -815,8 +815,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/beaconViz.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        <state relative-caret-position="662">
+          <caret line="98" column="29" selection-start-line="98" selection-start-column="29" selection-end-line="98" selection-end-column="29" />
           <folding />
         </state>
       </provider>
