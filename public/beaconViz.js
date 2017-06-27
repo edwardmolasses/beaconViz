@@ -30,12 +30,14 @@ var curMinute = 0;
 var currTimeMoment;
 
 d3.csv("data/qm_beacons.csv", function(error, data) {
-   //                                         _       _
-   //  _ __  _ __ ___   ___ ___ ___ ___    __| | __ _| |_ __ _
-   // | '_ \| '__/ _ \ / __/ _ / __/ __|  / _` |/ _` | __/ _` |
-   // | |_) | | | (_) | (_|  __\__ \__ \ | (_| | (_| | || (_| |
-   // | .__/|_|  \___/ \___\___|___|___/  \__,_|\__,_|\__\__,_|
-   // |_|
+
+    //                             _       _
+    //  _ __  _ __ ___ _ __     __| | __ _| |_ __ _
+    // | '_ \| '__/ _ | '_ \   / _` |/ _` | __/ _` |
+    // | |_) | | |  __| |_) | | (_| | (_| | || (_| |
+    // | .__/|_|  \___| .__/   \__,_|\__,_|\__\__,_|
+    // |_|            |_|
+
     maxDate = minDate = fixYear(data[0]['Date']);
     data.forEach(function(item, index) {
         buildBeaconListItem(beaconList, item);
@@ -47,12 +49,43 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         data[index]['Date'] = item['Date'];
     });
 
+    //                              _
+    //  _ __ ___   __ _ _ __  _ __ (_)_ __   __ _
+    // | '_ ` _ \ / _` | '_ \| '_ \| | '_ \ / _` |
+    // | | | | | | (_| | |_) | |_) | | | | | (_| |
+    // |_| |_| |_|\__,_| .__/| .__/|_|_| |_|\__, |
+    //                 |_|   |_|            |___/
+
+    var tick = function(e) {
+        return;
+    };
+    var force = d3.layout.force()
+        .nodes(data)
+        .size([width, height])
+        .gravity(0)
+        .charge(0)
+        .friction(.9)
+        .on("tick", tick)
+        .start();
+
+   //Create the Scale we will use for the Axis
+   var axisScale = d3.scale.ordinal()
+                    .domain(Object.keys(beaconList))
+                    .rangePoints([0, width - (margin.left + margin.right)]);
+
+   //Create the Axis
+   var xAxis = d3.svg.axis()
+                    .scale(axisScale)
+                    .tickFormat(function(d) {
+                        return beaconList[d]['id'];
+                    });
 
     //       _            _
     //   ___| | ___   ___| | __
     //  / __| |/ _ \ / __| |/ /
     // | (__| | (_) | (__|   <
     //  \___|_|\___/ \___|_|\_\
+
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curMinute, 'minutes');
         if (currTimeMoment.isAfter(moment(maxDate, dateFormat))) {
@@ -99,17 +132,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
                                        .attr("width", width)
                                        .attr("height", height);
 
-   //Create the Scale we will use for the Axis
-   var axisScale = d3.scale.ordinal()
-                           .domain(Object.keys(beaconList))
-                           .rangePoints([0, width - (margin.left + margin.right)]);
-
-   //Create the Axis
-   var xAxis = d3.svg.axis()
-                  .scale(axisScale)
-                  .tickFormat(function(d) {
-                     return beaconList[d]['id'];
-                  });
 
    //Create an SVG group Element for the Axis elements and call the xAxis function
    var xAxisLabel2y = margin.top + 10;
