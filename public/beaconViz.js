@@ -26,7 +26,8 @@ var maxDate;
 var dateFormat = 'YYYY-MM-DD HH:mm';
 var regularSpeed = 100;
 var speed = regularSpeed;
-var curr_minute = 0;
+var curMinute = 0;
+var currTimeMoment;
 
 d3.csv("data/qm_beacons.csv", function(error, data) {
    //                                         _       _
@@ -47,12 +48,13 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     });
 
     function timer() {
-        if (moment(minDate, dateFormat).add(curr_minute, 'minutes').isAfter(moment(maxDate, dateFormat))) {
-            curr_minute = 0;
+        currTimeMoment = moment(minDate, dateFormat).add(curMinute, 'minutes');
+        if (currTimeMoment.isAfter(moment(maxDate, dateFormat))) {
+            curMinute = 0;
         } else {
-            curr_minute += 1;
+            curMinute += 1;
         }
-        d3.select("#current_time").text(moment(minDate, dateFormat).add(curr_minute, 'minutes').format('dddd h:mma'));
+        d3.select("#current_time").text(currTimeMoment.format('dddd h:mma'));
         setTimeout(timer, speed);
     }
     setTimeout(timer, speed);
@@ -108,6 +110,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
    var xAxisGroup = svgContainer.append("g")
                                  .attr("class", "x axis")
                                  .call(xAxis)
-                                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                                 .attr("transform", "translate(" + margin.left + ",0)");
 
 });
