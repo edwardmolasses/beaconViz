@@ -200,6 +200,7 @@ h3 {
 }
 .x.axis text {
     text-transform: uppercase;
+    font-size: 12px;
 }
 .x.grid line {
     stroke: #000;
