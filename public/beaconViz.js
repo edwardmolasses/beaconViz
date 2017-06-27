@@ -47,6 +47,12 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         data[index]['Date'] = item['Date'];
     });
 
+
+    //       _            _
+    //   ___| | ___   ___| | __
+    //  / __| |/ _ \ / __| |/ /
+    // | (__| | (_) | (__|   <
+    //  \___|_|\___/ \___|_|\_\
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curMinute, 'minutes');
         if (currTimeMoment.isAfter(moment(maxDate, dateFormat))) {
