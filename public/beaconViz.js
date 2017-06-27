@@ -11,33 +11,39 @@ var buildBeaconListItem = function(beaconList, dataObj) {
       minor: dataObj['Minor Number']
    };
 };
-var itemMoment;
+var fixYear = function(date) {
+    return '20' +
+        date.split(' ')[0].split('-')[0] +
+        '-' +
+        date.split(' ')[0].split('-')[1] +
+        '-' +
+        date.split(' ')[0].split('-')[2] +
+        ' ' +
+        date.split(' ')[1];
+};
+var minDate;
+var maxDate;
+var dateFormat = 'YYYY-MM-DD HH:mm';
 
 d3.csv("data/qm_beacons.csv", function(error, data) {
-   console.log('%c[beaconViz.js:4]\ndata \n(see below): ','font-size:25px;color:yellowgreen;'); console.log(data);
-
    //                                         _       _
    //  _ __  _ __ ___   ___ ___ ___ ___    __| | __ _| |_ __ _
    // | '_ \| '__/ _ \ / __/ _ / __/ __|  / _` |/ _` | __/ _` |
    // | |_) | | | (_) | (_|  __\__ \__ \ | (_| | (_| | || (_| |
    // | .__/|_|  \___/ \___\___|___|___/  \__,_|\__,_|\__\__,_|
    // |_|
-
-   data.forEach(function(item, index) {
-      buildBeaconListItem(beaconList, item);
-      data[index]['Date'] = item['Date'] = '20' +
-          item['Date'].split(' ')[0].split('-')[0] +
-          '-' +
-          item['Date'].split(' ')[0].split('-')[1] +
-          '-' +
-          item['Date'].split(' ')[0].split('-')[2] +
-          ' ' +
-          item['Date'].split(' ')[1];
-      itemMoment = moment(data[index]['Date']);
-      console.log('%c[beaconViz.js:30]\ntime \n(see below): ','font-size:25px;color:thistle;'); console.log(itemMoment.hour() + 'h ' + itemMoment.minute() + 'm');
+    maxDate = minDate = fixYear(data[0]['Date']);
+    data.forEach(function(item, index) {
+        buildBeaconListItem(beaconList, item);
+        if (item['Date']) {
+            item['Date'] = fixYear(item['Date']);
+            minDate = moment.min(moment(minDate, dateFormat), moment(item['Date'], dateFormat)).format(dateFormat);
+            maxDate = moment.max(moment(maxDate, dateFormat), moment(item['Date'], dateFormat)).format(dateFormat);
+        }
+        data[index]['Date'] = item['Date'];
    });
-   // console.log('%c[beaconViz.js:39]\nbeaconList \n(see below): ','font-size:25px;color:yellowgreen;'); console.log(beaconList);
-   
+console.log('%c[beaconViz.js:4]\ndata \n(see below): ','font-size:25px;color:yellowgreen;'); console.log(data);
+
    // var x = d3.scale.ordinal()
    //     .domain(Object.keys(beacons))
    //     .rangePoints([0, width]);
