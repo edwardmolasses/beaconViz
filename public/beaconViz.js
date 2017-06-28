@@ -108,7 +108,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             if (!userList.hasOwnProperty(key)) continue;
             nodes.push(userList[key]);
         }
-    }
+    };
     var intervalId = window.setInterval(timer, speed);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curMinute, 'minutes');
