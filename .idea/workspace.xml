@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b79c0aa-315b-46fb-9b8a-7f67c6431df3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/beaconViz.js" afterPath="$PROJECT_DIR$/public/beaconViz.js" />
     </list>
     <ignored path="BeaconViz.iws" />
@@ -26,8 +27,8 @@
       <file leaf-file-name="beaconViz.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/beaconViz.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="806">
-              <caret line="119" column="11" selection-start-line="119" selection-start-column="11" selection-end-line="119" selection-end-column="11" />
+            <state relative-caret-position="888">
+              <caret line="123" column="128" selection-start-line="123" selection-start-column="128" selection-end-line="123" selection-end-column="128" />
               <folding />
             </state>
           </provider>
@@ -251,12 +252,12 @@
       <workItem from="1498229762013" duration="392000" />
       <workItem from="1498240787187" duration="325000" />
       <workItem from="1498498150910" duration="4571000" />
-      <workItem from="1498512835056" duration="30212000" />
+      <workItem from="1498512835056" duration="32633000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66313000" />
+    <option name="totallyTimeSpent" value="68734000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1920" height="1080" extended-state="6" />
@@ -718,10 +719,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/data/qm_beacons.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="20" column="104" selection-start-line="20" selection-start-column="104" selection-end-line="20" selection-end-column="104" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="271" column="0" selection-start-line="271" selection-start-column="0" selection-end-line="271" selection-end-column="0" />
+        <state relative-caret-position="374">
+          <caret line="296" column="50" selection-start-line="296" selection-start-column="50" selection-end-line="296" selection-end-column="50" />
           <folding>
             <marker date="1498583144000" expanded="true" signature="0:1107" ph="/*...*/" />
             <marker date="1498583144000" expanded="true" signature="1427:1541" ph="//..." />
@@ -798,18 +807,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/data/qm_beacons.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="20" column="104" selection-start-line="20" selection-start-column="104" selection-end-line="20" selection-end-column="104" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/beaconViz.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="806">
-          <caret line="119" column="11" selection-start-line="119" selection-start-column="11" selection-end-line="119" selection-end-column="11" />
+        <state relative-caret-position="888">
+          <caret line="123" column="128" selection-start-line="123" selection-start-column="128" selection-end-line="123" selection-end-column="128" />
           <folding />
         </state>
       </provider>

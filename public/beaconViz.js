@@ -49,8 +49,9 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             maxDate = moment.max(moment(maxDate, dateFormat), moment(item['Date'], dateFormat)).format(dateFormat);
         }
         data[index]['Date'] = item['Date'];
+        data[index]['Attendee ID'] = 'ID' + item['Attendee ID'];
     });
-    // console.log('%c[beaconViz.js:52]\ndata \n(see below): ','font-size:25px;color:tomato;'); console.log(data);
+    console.log('%c[beaconViz.js:52]\ndata \n(see below): ','font-size:25px;color:tomato;'); console.log(data);
 
     //                              _
     //  _ __ ___   __ _ _ __  _ __ (_)_ __   __ _
@@ -89,39 +90,39 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     // | (__| | (_) | (__|   <
     //  \___|_|\___/ \___|_|\_\
 
+    var pushActiveUser = function(userObj) {
+        activeUsers[userObj['Attendee ID']] = {
+            attendeeId: userObj['Attendee ID'],
+            uuid: userObj['UUID'],
+            beaconId: userObj['Beacon ID'],
+            date: userObj['Date'],
+            email: userObj['Email'],
+            firstName: userObj['First Name'],
+            lastName: userObj['Last Name'],
+            majorNumber: userObj['Major Number'],
+            minorNumber: userObj['Minor Number']
+        };
+    };
+    var intervalId;
+    intervalId = window.setInterval(timer, speed);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curMinute, 'minutes');
         if (currTimeMoment.isAfter(moment(maxDate, dateFormat))) {
-            curMinute = 0;
+            // curMinute = 0;
+            clearInterval(intervalId);
         } else {
             curMinute += 1;
         }
         d3.select("#current_time").text(currTimeMoment.format('dddd h:mma'));
-        // debugger;
         data.forEach(function(item){
             if (moment(item['Date'], dateFormat).isSame(currTimeMoment)) {
-            // debugger;
-                console.log('%c[beaconViz.js:103]\nitem is at currentTime \n(see below): ','font-size:25px;color:thistle;'); console.log(item);
-                // if (item['Attendee ID']) {
-                //     activeUsers[item['Attendee ID']] = {
-                //         attendeeId: item['Attendee ID'],
-                //         uuid: item['UUID'],
-                //         beaconId: item['Beacon ID'],
-                //         date: item['Date'],
-                //         email: item['Email'],
-                //         firstName: item['First Name'],
-                //         lastName: item['Last Name'],
-                //         majorNumber: item['Major Number'],
-                //         minorNumber: item['Minor Number']
-                //     };
-                // }
+                if (item['Attendee ID']) {
+                    pushActiveUser(item);
+                }
             }
-            // console.log('%c[beaconViz.js:116]\nactiveUsers \n(see below): ','font-size:25px;color:teal;'); console.log(activeUsers);
         });
-
-        setTimeout(timer, speed);
+        console.log('%c[beaconViz.js:116]\nactiveUsers \n(see below): ','font-size:25px;color:teal;'); console.log(activeUsers);
     }
-    setTimeout(timer, speed);
 
     //                     _
     //  _ __ ___ _ __   __| | ___ _ __
