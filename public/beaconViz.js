@@ -103,25 +103,24 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             minorNumber: userObj['Minor Number']
         };
     };
-    var intervalId;
-    intervalId = window.setInterval(timer, speed);
+    var intervalId = window.setInterval(timer, speed);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curMinute, 'minutes');
         if (currTimeMoment.isAfter(moment(maxDate, dateFormat))) {
-            // curMinute = 0;
             clearInterval(intervalId);
+            d3.select("#current_time").text('Finished!');
         } else {
             curMinute += 1;
-        }
-        d3.select("#current_time").text(currTimeMoment.format('dddd h:mma'));
-        data.forEach(function(item){
-            if (moment(item['Date'], dateFormat).isSame(currTimeMoment)) {
-                if (item['Attendee ID']) {
-                    pushActiveUser(item);
+            d3.select("#current_time").text(currTimeMoment.format('dddd h:mma'));
+            data.forEach(function(item) {
+                if (moment(item['Date'], dateFormat).isSame(currTimeMoment)) {
+                    if (item['Attendee ID']) {
+                        pushActiveUser(item);
+                    }
                 }
-            }
-        });
-        console.log('%c[beaconViz.js:116]\nactiveUsers \n(see below): ','font-size:25px;color:teal;'); console.log(activeUsers);
+            });
+            console.log('%c[beaconViz.js:116]\nactiveUsers \n(see below): ','font-size:25px;color:teal;'); console.log(activeUsers);
+        }
     }
 
     //                     _
