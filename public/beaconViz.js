@@ -53,12 +53,11 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     });
     console.log('%c[beaconViz.js:52]\ndata \n(see below): ','font-size:25px;color:tomato;'); console.log(data);
 
-    //                              _
-    //  _ __ ___   __ _ _ __  _ __ (_)_ __   __ _
-    // | '_ ` _ \ / _` | '_ \| '_ \| | '_ \ / _` |
-    // | | | | | | (_| | |_) | |_) | | | | | (_| |
-    // |_| |_| |_|\__,_| .__/| .__/|_|_| |_|\__, |
-    //                 |_|   |_|            |___/
+    //  _ __ ___   __ _ _ __
+    // | '_ ` _ \ / _` | '_ \
+    // | | | | | | (_| | |_) |
+    // |_| |_| |_|\__,_| .__/
+    //                 |_|
 
     var tick = function(e) {
         return;
@@ -103,6 +102,13 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             minorNumber: userObj['Minor Number']
         };
     };
+    var populateNodes = function(userList) {
+        nodes = [];
+        for (var key in userList) {
+            if (!userList.hasOwnProperty(key)) continue;
+            nodes.push(userList[key]);
+        }
+    }
     var intervalId = window.setInterval(timer, speed);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curMinute, 'minutes');
@@ -119,7 +125,9 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
                     }
                 }
             });
+            populateNodes(activeUsers);
             console.log('%c[beaconViz.js:116]\nactiveUsers \n(see below): ','font-size:25px;color:teal;'); console.log(activeUsers);
+            console.log('%c[beaconViz.js:125]\nnodes \n(see below): ','font-size:25px;color:steelblue;'); console.log(nodes);
         }
     }
 
