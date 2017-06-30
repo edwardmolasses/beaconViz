@@ -2,7 +2,18 @@ var browserWidth = document.body.clientWidth;
 var margin = {top: 105, right: 50, bottom: 50, left: 145 };
 var width = browserWidth - margin.left - margin.right;
 var height = 450 - margin.top - margin.bottom;
+var particleRadius = 5.8;
 var beaconList = [];
+var minDate;
+var maxDate;
+var dateFormat = 'YYYY-MM-DD HH:mm';
+var regularSpeed = 100;
+var speed = regularSpeed;
+var curMinute = 0;
+var currTimeMoment;
+var activeUsers = [];
+var nodes = [];
+var inactiveBeaconKey = 'INACTIVE';
 var buildBeaconListItem = function(beaconList, dataObj) {
    beaconList[dataObj['Beacon ID']] = {
       id: dataObj['Beacon ID'],
@@ -21,15 +32,42 @@ var fixYear = function(date) {
         ' ' +
         date.split(' ')[1];
 };
-var minDate;
-var maxDate;
-var dateFormat = 'YYYY-MM-DD HH:mm';
-var regularSpeed = 100;
-var speed = regularSpeed;
-var curMinute = 0;
-var currTimeMoment;
-var activeUsers = [];
-var nodes = [];
+var fixAttendeeId = function(attId) {
+    return 'ID-' + attId;
+};
+var getOriginalAttendeeId = function(fixedAttId) {
+    return fixedAttId.split('ID-')[1];
+};
+var pushActiveUser = function(userObj, activeUsers) {
+    activeUsers[userObj['Attendee ID']] = {
+        attendeeId: userObj['Attendee ID'],
+        uuid: userObj['UUID'],
+        beaconId: userObj['Beacon ID'],
+        date: userObj['Date'],
+        email: userObj['Email'],
+        firstName: userObj['First Name'],
+        lastName: userObj['Last Name'],
+        majorNumber: userObj['Major Number'],
+        minorNumber: userObj['Minor Number']
+    };
+};
+var deepCopy = function(oldObj) {
+    var newObj = oldObj;
+    if (oldObj && typeof oldObj === 'object') {
+        newObj = Object.prototype.toString.call(oldObj) === "[object Array]" ? [] : {};
+        for (var i in oldObj) {
+            newObj[i] = deepCopy(oldObj[i]);
+        }
+    }
+    return newObj;
+};
+var populateNodes = function(userList) {
+    nodes = [];
+    for (var key in userList) {
+        if (!userList.hasOwnProperty(key)) continue;
+        nodes.push(userList[key]);
+    }
+};
 
 d3.csv("data/qm_beacons.csv", function(error, data) {
 
@@ -40,18 +78,32 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     // | .__/|_|  \___| .__/   \__,_|\__,_|\__\__,_|
     // |_|            |_|
 
+    beaconList[inactiveBeaconKey] = {
+        name: 'Inactive Users',
+        major: 0,
+        minor: 0
+    };
+    beaconList[inactiveBeaconKey]['id'] = inactiveBeaconKey;
     maxDate = minDate = fixYear(data[0]['Date']);
+    var tempItem;
     data.forEach(function(item, index) {
+        data[index]['Attendee ID'] = fixAttendeeId(item['Attendee ID']);
         buildBeaconListItem(beaconList, item);
         if (item['Date']) {
             item['Date'] = fixYear(item['Date']);
             minDate = moment.min(moment(minDate, dateFormat), moment(item['Date'], dateFormat)).format(dateFormat);
             maxDate = moment.max(moment(maxDate, dateFormat), moment(item['Date'], dateFormat)).format(dateFormat);
+            data[index]['Date'] = item['Date'];
         }
-        data[index]['Date'] = item['Date'];
-        data[index]['Attendee ID'] = 'ID' + item['Attendee ID'];
+        tempItem = deepCopy(item);
+        tempItem['Beacon ID'] = inactiveBeaconKey;
+        tempItem['Date'] = false;
+        pushActiveUser(tempItem, activeUsers);
     });
     console.log('%c[beaconViz.js:52]\ndata \n(see below): ','font-size:25px;color:tomato;'); console.log(data);
+    console.log('%c[beaconViz.js:55]\nbeaconList \n(see below): ','font-size:25px;color:yellowgreen;'); console.log(beaconList);
+    console.log('%c[beaconViz.js:55]\nactiveUsers \n(see below): ','font-size:25px;color:pink;'); console.log(activeUsers);
+    // debugger;
 
     //  _ __ ___   __ _ _ __
     // | '_ ` _ \ / _` | '_ \
@@ -59,6 +111,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     // |_| |_| |_|\__,_| .__/
     //                 |_|
 
+    populateNodes(activeUsers);
     var tick = function(e) {
         return;
     };
@@ -70,6 +123,12 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .friction(.9)
         .on("tick", tick)
         .start();
+
+    var circle = svg.selectAll("circle")
+        .data(nodes)
+        .enter().append("circle")
+        .attr("r", function(d) { return 5.8; })
+        .style("fill", function(d) { return d.color; });
 
    // create the scale we will use for the axis
    var axisScale = d3.scale.ordinal()
@@ -89,26 +148,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     // | (__| | (_) | (__|   <
     //  \___|_|\___/ \___|_|\_\
 
-    var pushActiveUser = function(userObj) {
-        activeUsers[userObj['Attendee ID']] = {
-            attendeeId: userObj['Attendee ID'],
-            uuid: userObj['UUID'],
-            beaconId: userObj['Beacon ID'],
-            date: userObj['Date'],
-            email: userObj['Email'],
-            firstName: userObj['First Name'],
-            lastName: userObj['Last Name'],
-            majorNumber: userObj['Major Number'],
-            minorNumber: userObj['Minor Number']
-        };
-    };
-    var populateNodes = function(userList) {
-        nodes = [];
-        for (var key in userList) {
-            if (!userList.hasOwnProperty(key)) continue;
-            nodes.push(userList[key]);
-        }
-    };
     var intervalId = window.setInterval(timer, speed);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curMinute, 'minutes');
@@ -121,7 +160,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             data.forEach(function(item) {
                 if (moment(item['Date'], dateFormat).isSame(currTimeMoment)) {
                     if (item['Attendee ID']) {
-                        pushActiveUser(item);
+                        pushActiveUser(item, activeUsers);
                     }
                 }
             });
