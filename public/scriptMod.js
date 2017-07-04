@@ -306,13 +306,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
       // Push nodes toward their designated focus.
       nodes.forEach(function(o, i) {
 // debugger;
-          var curr_act = o.act;
-
-          // if (curr_act == "w") {
-          //     o.color = colorByOcc(o.grp);
-          // } else {
-          //     o.color = "#cccccc";
-          // }
           o.x += (x(o.beaconId) - o.x) * k * damper;
           o.y += (50 - o.y) * k * damper;
       });
