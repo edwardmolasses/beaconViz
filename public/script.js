@@ -265,6 +265,7 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
 
 
     // Update nodes based on activity and duration
+    var intervalId = window.setInterval(timer, 180);
     function timer() {
         d3.range(nodes.length).map(function(i) {
             var curr_node = nodes[i],
@@ -340,10 +341,7 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
                 notes_index = 0;
             }
         }
-
-        setTimeout(timer, speeds[USER_SPEED]);
     }
-    setTimeout(timer, speeds[USER_SPEED]);
 
 
     function tick(e) {
