@@ -26,8 +26,8 @@
       <file leaf-file-name="forceLayout.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/forceLayout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="456">
+              <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -254,12 +254,12 @@
       <workItem from="1498498150910" duration="4571000" />
       <workItem from="1498512835056" duration="35690000" />
       <workItem from="1498763351646" duration="5600000" />
-      <workItem from="1501103585822" duration="31000" />
+      <workItem from="1501103585822" duration="241000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77422000" />
+    <option name="totallyTimeSpent" value="77632000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="0" width="1920" height="1080" extended-state="6" />
@@ -609,8 +609,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/forceLayout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="456">
+          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
           <folding />
         </state>
       </provider>
