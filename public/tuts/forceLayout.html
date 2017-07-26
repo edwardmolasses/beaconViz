@@ -53,7 +53,7 @@
 
     var graph = {
         "nodes": [  { "x": 208.992345, "y": 273.053211 },
-            { "x": 595.98896,  "y":  56.377057 },
+            { "x": 555.98896,  "y":  56.377057 },
             { "x": 319.568434, "y": 278.523637 },
             { "x": 214.494264, "y": 214.893585 },
             { "x": 482.664139, "y": 340.386773 },
@@ -232,7 +232,7 @@
         node.transition().ease('linear').duration(animationStep)
                 .attr('cx', function(d) { return d.x; })
                 .attr('cy', function(d) { return d.y; });
-
+//debugger;
         // We also need to update positions of the links.
         // For those elements, the force layout sets the
         // `source` and `target` properties, specifying
