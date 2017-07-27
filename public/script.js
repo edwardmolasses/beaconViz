@@ -357,7 +357,7 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
                 o.color = colorByOcc(o.grp);
             } else {
                 o.color = "#cccccc";
-            }
+            }f
             // o.grp is 11-19 on the ordinal scale
             // x(o.grp) places us on the ordinal scale x-axis
             // o.x is the initial x position with a small randomization
