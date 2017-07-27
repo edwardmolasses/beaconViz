@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Circular Layout</title>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
+          rel="stylesheet">
+    <style>
+
+        circle {
+            fill: steelblue;
+            stroke: black;
+        }
+
+    </style>
+</head>
+<body>
+
+<script src='http://d3js.org/d3.v3.min.js'></script>
+<script>
+
+// largely based on http://bl.ocks.org/4063550
+
+// some made-up data
+var data = [1,3,2,5,3,2,7,1,3,3,3,3,3];
+
+// tree-ify our fake data
+var dataTree = {
+    children: data.map(function(d) { return { size: d }; })
+};
+
+// basic settings
+var w = 400,
+        m = 20,
+        maxRadius = 50,
+        padding = 10,
+        mainRadius = 5;
+
+
+// size scale for data
+var radiusScale = d3.scale.sqrt()
+        .domain([0, d3.max(data)])
+        .range([0, maxRadius]);
+
+// determine the appropriate radius for the circle
+var roughCircumference = d3.sum(data.map(radiusScale)) * 2 + padding * (data.length - 1),
+        radius = roughCircumference / (Math.PI * 2);
+
+// make a radial tree layout
+var tree = d3.layout.tree()
+        .size([360, radius]);
+
+// make the svg
+var svg = d3.select("body").append("svg")
+        .attr("width", w + m * 2)
+        .attr("height", w + m * 2)
+        .append("g")
+        .attr("transform", "translate(" + (w / 2 + m) + "," + (w / 2 + m) + ")");
+
+// apply the layout to the data
+var nodes = tree.nodes(dataTree);
+
+// create dom elements for the node
+var node = svg.selectAll(".node")
+        .data(nodes.slice(1)) // cut out the root node, we don't need it
+        .enter().append("g")
+        .attr("class", "node")
+        .attr("transform", function(d) {
+            return "rotate(" + (d.x - 90) + ") translate(" + d.y + ")";
+        })
+
+node.append("circle")
+        .attr("r", function(d) { return mainRadius; });
+
+</script>
+</body>
+</html>
