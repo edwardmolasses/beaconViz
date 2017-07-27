@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8'>
-    <title>Force Layout Example 4</title>
+    <title>Force Layout Example 6</title>
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
           rel="stylesheet">
     <style>
@@ -11,6 +11,14 @@
             fill: #ccc;
             stroke: #fff;
             stroke-width: 2px;
+        }
+
+        .node.red {
+            fill: #cc0000;
+        }
+
+        .node.blue {
+            fill: #0000cc;
         }
 
         .link {
@@ -51,8 +59,8 @@
 <script src='http://d3js.org/d3.v3.min.js'></script>
 <script>
 
-    // "Understanding D3.js Force Layout - Link Distance"
-    // source: http://jsdatav.is/visuals.html?id=83515b77c2764837aac2
+    // "Understanding D3.js Force Layout - Repelling Charge"
+    // source: http://jsdatav.is/visuals.html?id=49b1d119e05b5efbf96e
 
     // Define the dimensions of the visualization. We're using
     // a size that's convenient for displaying the graphic on
@@ -105,42 +113,30 @@
         // The second array, called `links` below, identifies all the links
         // between the nodes. (The more mathematical term is "edges.")
 
-        // This example shows two separate network graphs in a single
-        // visualization (so it's easy to see the difference between them).
-        // Each graph has only two nodes to keep things as simple as
-        // possible. As far as D3 is concerned, nodes are arbitrary objects.
+        // As far as D3 is concerned, nodes are arbitrary objects.
         // Normally the objects wouldn't be initialized with `x` and `y`
         // properties like we're doing below. When those properties are
         // present, they tell D3 where to place the nodes before the force
         // layout starts its magic. More typically, they're left out of the
         // nodes and D3 picks random locations for each node. We're defining
-        // them here so we can get a consistent application of the layout
-        // and so we can make sure that the two graphs don't get mixed up
-        // with each other.
-
-        // Note that our initial positions locate the notes uniformly
-        // throughout the visualization.
+        // them here so we can get a consistent application of the layout.
 
         var dataNodes = [
-            { x:   width/3, y:   height/3 },
-            { x:   width/3, y: 2*height/3 },
-            { x: 2*width/3, y:   height/3 },
-            { x: 2*width/3, y: 2*height/3 }
+            { x: 4*width/9, y:   height/3, className: 'red' },
+            { x: 5*width/9, y:   height/3, className: 'red' },
+            { x: 4*width/9, y: 2*height/3 },
+            { x: 5*width/9, y: 2*height/3 }
         ];
 
         // The `links` array contains objects with a `source` and a `target`
         // property. The values of those properties are the indices in
         // the `nodes` array of the two endpoints of the link. Our links
-        // bind the first two nodes into one graph and the next two nodes
-        // into the second graph.
-
-        // As you can see, we're also free to add other properties of our
-        // own to the link objects. In this case we're adding a `graph`
-        // property to indicate which graph "owns" the link.
+        // bind the first three nodes into one graph and leave the last
+        // two nodes isolated.
 
         var dataLinks = [
-            { source: 0, target: 1, graph: 0 },
-            { source: 2, target: 3, graph: 1 }
+            { source: 0, target: 2},
+            { source: 1, target: 3}
         ];
 
         // Now we create a force layout object and define its properties.
@@ -152,23 +148,31 @@
                 .nodes(dataNodes)
                 .links(dataLinks);
 
-        // To keep the two distinct graphs from getting mixed up with
-        // each other, we'll disable the `gravity` property. We'll explore
-        // this property in a later example, but note that, in general,
-        // you probably don't want to do this. We can get away with it
-        // here because we're carefully controlling the graphs.
+        // To keep the nodes centered in the visualization we increase
+        // the `gravity` a bit more than its default value of `0.1`. We'll
+        // explore this property in more detail in another example.
 
-        force.gravity(0);
+        force.gravity(0.2);
 
-        // Here's the part where we make the two graphs differ. Because
-        // we're looking at the `linkDistance` property, that's what we
-        // want to vary between the graphs. Most often this property is
-        // set to a constant value for an entire visualization, but D3
-        // also lets us define it as a function. When we do that, we
-        // can set a different value for each link.
+        // Define the `linkDistance` for the graph. This is the
+        // distance we desire between connected nodes.
 
-        force.linkDistance(function(link) {
-            return link.graph === 0 ? height/2 : height/4;
+        force.linkDistance(height/4);
+
+        // Here's the part where things get interesting. Because
+        // we're looking at the `charge` property, that's what we
+        // want to vary between the read and blue nodes. Most often
+        // this property is set to a constant value for an entire
+        // visualization, but D3 also lets us define it as a function.
+        // When we do that, we can set a different value for each node.
+
+        // Negative charge values indicate repulsion, which is generally
+        // desirable for force-directed graphs. (Positive values indicate
+        // attraction and can be helpful for other visualization types.)
+
+        force.charge(function(node) {
+            if (node.className === 'red')  return -3000;
+            return -30;
         });
 
         // Next we'll add the nodes and links to the visualization.
@@ -215,6 +219,22 @@
                 .attr('r', width/25)
                 .attr('cx', function(d) { return d.x; })
                 .attr('cy', function(d) { return d.y; });
+
+        // If we've defined a class name for a node, add it to the
+        // element. We'll use the D3 `each` function to iterate
+        // through the selection. The parameter passed to that
+        // function is the data objected associated with the
+        // selection which, by convention, is parameterized as `d`.
+        // In our case that will be the node object.
+
+        // Also in the `each` function, the context (`this`) is
+        // set to the associated node in the DOM.
+
+        nodes.each(function(d){
+            if (d.className) {
+                d3.select(this).classed(d.className, true)
+            }
+        });
 
         // Finally we tell D3 that we want it to call the step
         // function at each iteration.
