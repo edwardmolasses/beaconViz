@@ -26,8 +26,8 @@
       <file leaf-file-name="circularLayout.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/tuts/circularLayout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="30" column="11" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
+            <state relative-caret-position="252">
+              <caret line="21" column="24" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -265,12 +265,12 @@
       <workItem from="1498763351646" duration="5600000" />
       <workItem from="1501103585822" duration="5262000" />
       <workItem from="1501173427819" duration="1980000" />
-      <workItem from="1501193879284" duration="2212000" />
+      <workItem from="1501193879284" duration="2614000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86845000" />
+    <option name="totallyTimeSpent" value="87247000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="0" width="1920" height="1080" extended-state="6" />
@@ -1179,8 +1179,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/tuts/circularLayout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="30" column="11" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
+        <state relative-caret-position="252">
+          <caret line="21" column="24" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
           <folding />
         </state>
       </provider>
