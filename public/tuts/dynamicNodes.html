@@ -139,7 +139,8 @@
             .size([width, height])
             .nodes(nodes)
             .gravity(1)
-            .charge(0)
+            .charge(-50)
+            .linkDistance(1)
             .friction(.9);
 
 //    var force = d3.layout.force()
@@ -243,7 +244,7 @@
         node.transition().ease('linear').duration(animationStep)
                 .attr('cx', function(d) { return d.x; })
                 .attr('cy', function(d) { return d.y; });
-//debugger;
+
         // We also need to update positions of the links.
         // For those elements, the force layout sets the
         // `source` and `target` properties, specifying
@@ -277,6 +278,10 @@
         }
 
     });
+
+//    setTimeout(function() {
+//        graph.nodes[0].x = 380;
+//    }, 5*1000);
 
     // Now let's take care of the user interaction controls.
     // We'll add functions to respond to clicks on the individual
