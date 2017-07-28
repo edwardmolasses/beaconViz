@@ -19,11 +19,22 @@
 // largely based on http://bl.ocks.org/4063550
 
 // some made-up data
-var data = [1,1,1,1,3,2,1,1,1,1,3,2];
+//var buckets = ["one","two","three"];
+var buckets = [1,1,1];
+//var buckets = [1,1,1,1,3,2,1,1,1,1,3,2];
+
+var dataObjs = [
+//    { bucket: "one" },
+//    { bucket: "two" },
+//    { bucket: "two" },
+//    { bucket: "three" },
+//    { bucket: "three" },
+    { bucket: "three" }
+];
 
 // tree-ify our fake data
 var dataTree = {
-    children: data.map(function(d) { return { size: d }; })
+    children: buckets.map(function(d) { return {  }; })
 };
 
 // basic settings
@@ -33,20 +44,22 @@ var maxRadius = 50;
 var padding = 10;
 var mainRadius = 5;
 
-
 // size scale for data
 var radiusScale = d3.scale.sqrt()
-        .domain([0, d3.max(data)])
+        .domain([0, d3.max(buckets)])
         .range([0, maxRadius]);
 
 // determine the appropriate radius for the circle
-var roughCircumference = d3.sum(data.map(radiusScale)) * 2 + padding * (data.length - 1);
+var roughCircumference = d3.sum(buckets.map(radiusScale)) * 2 + padding * (buckets.length - 1);
 var radius = roughCircumference / (Math.PI * 2);
 
+debugger;
 // make a radial tree layout
+// by the time we are here, the x's and y's for circular coords are already set
 var tree = d3.layout.tree()
         .size([360, radius]);
 
+debugger;
 // make the svg
 var svg = d3.select("body").append("svg")
         .attr("width", w + m * 2)
@@ -56,15 +69,21 @@ var svg = d3.select("body").append("svg")
 
 // apply the layout to the data
 var nodes = tree.nodes(dataTree);
-
+debugger;
 // create dom elements for the node
 var node = svg.selectAll(".node")
         .data(nodes.slice(1)) // cut out the root node, we don't need it
         .enter().append("g")
         .attr("class", "node")
         .attr("transform", function(d) {
+//            debugger;
             return "rotate(" + (d.x - 90) + ") translate(" + d.y + ")";
         });
+
+// the sliced out node in the center is the parent node
+// the tree layout will populate each node with coords and parent and child elements
+// the center element, (180,0) will have the other elements surrounding it as it's children
+// and it will be the parent
 
 node.append("circle")
         .attr("r", function(d) { return mainRadius; });

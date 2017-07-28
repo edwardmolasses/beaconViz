@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Radial Layout</title>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
+          rel="stylesheet">
+    <style type="text/css">
+        svg path{
+            stroke: none;
+            fill: lightskyblue;
+            stroke-width: 1px;
+        }
+    </style>
+</head>
+<body>
+<div id="chart"></div>
+<script src='http://d3js.org/d3.v3.min.js'></script>
+<script>
+
+    // Modified from https://groups.google.com/d/msg/d3-js/AWuRpoXxDFk/sOflKd-kzmcJ
+
+    var json = [
+        {
+            "value": 0,
+            "timetag": new Date(2011, 0, 1,0,   0),
+            "unit": ""
+        },
+        {
+            "value": 1,
+            "timetag": new Date(2011, 0, 1, 3, 00)
+        },
+        {
+            "value": 0.5,
+            "timetag": new Date(2011, 0, 1, 6, 00)
+        },
+        {
+            "value": 0,
+            "timetag": new Date(2011, 0, 1, 12, 00),
+            "unit": ""
+        },
+        {
+            "value": 1,
+            "timetag": new Date(2011, 0, 1, 18, 00) //"2011-08-14T09:00:24+00:00",
+        },
+        {
+            "value": 0,
+            "timetag": new Date(2011, 0, 1, 23, 59) //"2011-08-14T09:00:24+00:00",
+        }
+    ];
+
+    var graphsize = 350;
+
+    //the axis is a time scale that runs from 00:00 - 23:59
+    var y = d3.time.scale().domain([new Date(2011, 0, 1,0,0), new Date(2011, 0, 1, 23, 59)]).range([0, 2* Math.PI]);
+
+    function buildData(i) {
+        // each 'i' is a degree between 0-360
+        debugger;
+        if ( typeof this.currentData == 'undefined' ) this.currentData = 0;
+        if ( i > y(json[this.currentData+1].timetag)*180/Math.PI) {
+            /* Step forward */
+            this.currentData++;
+        }
+        return {
+            "value": json[this.currentData].value,
+            "timetag": y.invert(i*Math.PI/180)
+        }
+    }
+
+    function getValue(d) { return d.value;}
+
+
+    var r = graphsize / 2;
+    var data = d3.range(361).map(buildData);
+    var maxValue = d3.max(data, getValue);
+    var minValue = d3.min(data, getValue);
+    var delta = Math.abs(maxValue - minValue);
+debugger;
+console.log('%c[radialLayout.html:70]\nd3.max(data, getValue) \n(see below): ','font-size:25px;color:thistle;'); console.log(d3.max(data, getValue));
+console.log('%c[radialLayout.html:70]\nd3.min(data, getValue) \n(see below): ','font-size:25px;color:thistle;'); console.log(d3.min(data, getValue));
+
+//    function yValue(d) { return (d.value/delta + 1)* r/2};
+
+
+    var svg = d3.select("#chart").append("svg:svg")
+            .attr("width", r * 2)
+            .attr("height", r * 2)
+            .append("svg:g")
+            .attr("transform", "translate(" + r + "," + r + ")");
+
+//    svg.append("svg:path")
+//            .attr("class", "area")
+//            .attr("d", d3.svg.area.radial()
+//                    .innerRadius(r / 2)
+//                    .outerRadius(yValue)
+//                    .angle(function(d, i) { return y(d.timetag); })
+//            );
+
+//    svg.append("svg:path")
+//            .attr("class", "line")
+//            .attr("d", d3.svg.line.radial()
+//                    .radius(yValue)
+//                    .angle(function(d, i) { return y(d.timetag); }));
+
+//    surrounding circle
+//    svg.append("svg:circle")
+//            .attr("r", r)
+//            .attr("stroke", "steelblue")
+//            .attr("fill", "none");
+
+
+    svg.selectAll("rect.tick")
+            .data(d3.range(24))
+            .enter().append("svg:rect")
+            .attr("class", "tick")
+            .attr("x", -2)
+            .attr("y", -r)
+            .attr("width", 4)
+            .attr("height", function(d, i){return (i%2) ? 5 : 15;})
+            .attr("transform", function(d, i){return "rotate("+(i*15)+")";})
+            .attr("fill", "steelblue");
+
+    svg.selectAll("text.label")
+            .data(d3.range(24))
+            .enter().append("svg:text")
+            .attr("class", "label")
+            .attr("x", function(d, i){return (r-30)*Math.cos(i*0.26-1.57)})
+            .attr("y", function(d, i){return (r-30)*Math.sin(i*0.26-1.57)})
+            .attr("fill", "steelblue")
+            .attr("alignment-baseline", "middle")
+            .attr("text-anchor", "middle")
+            .text(function(d, i){return d});
+
+</script>
+</body>
+</html>

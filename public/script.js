@@ -165,6 +165,7 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
     //
     // Axes (note: placing the text labels on x and y axes)
     //
+    debugger;
     x.domain(d3.map(data, function(d) { return d.grp; }).keys());
     // note: first place the location labels on y
     svg.append("g")
@@ -357,7 +358,7 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
                 o.color = colorByOcc(o.grp);
             } else {
                 o.color = "#cccccc";
-            }f
+            }
             // o.grp is 11-19 on the ordinal scale
             // x(o.grp) places us on the ordinal scale x-axis
             // o.x is the initial x position with a small randomization
