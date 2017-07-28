@@ -42,10 +42,6 @@
         var scale = d3.scalePoint().domain(dataset)
                 .range([0, width]);
 
-        svg.append("text")
-                .attr("y", 10)
-                .text('scaleOrdinal');
-
         svg.selectAll(".scaleOrdinal")
                 .data(dataset)
                 .enter().append("circle")
@@ -53,10 +49,10 @@
                 .attr("cy", 40)
                 .attr("cx", function(d) { return scale(d); })
 
-        svg.append("g")
-                .attr("class","x axis")
-                .attr("transform","translate(0," + height + ")")
-                .call(d3.axisBottom(scale));
+//        svg.append("g")
+//                .attr("class","x axis")
+//                .attr("transform","translate(0," + height + ")")
+//                .call(d3.axisBottom(scale));
     </script>
 </body>
 </html>
