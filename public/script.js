@@ -223,6 +223,7 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
 
 
     // A node for each person's schedule
+    debugger;
     var nodes = sched_objs.map(function(o,i) {
         // debugger;
         var init = o[0];

@@ -27,8 +27,20 @@
     <script src='http://d3js.org/d3.v4.min.js'></script>
     <script>
         var beacons = ["beaconOne","beaconTwo","beaconThree"];
+        var attendees = [
+            {
+                beacon: 'beaconOne'
+            },
+            {
+                beacon: 'beaconTwo'
+            },
+            {
+                beacon: 'beaconTwo'
+            }
+        ];
 
         var margin = {top: 20, right: 20, bottom: 20, left: 200};
+        var init_y = 40;
 
         var width = 800 - margin.left - margin.right,
             height = 80 - margin.top - margin.bottom;
@@ -42,13 +54,48 @@
         var scale = d3.scalePoint().domain(beacons)
                 .range([0, width]);
 
+            // add circles
         svg.selectAll(".scaleOrdinal")
                 .data(beacons)
                 .enter().append("circle")
                 .attr("r", 5)
                 .attr("cy", 40)
-                .attr("cx", function(d) { return scale(d); })
+                .attr("cx", function(d) { return scale(d); });
 
+        var nodes = attendees.map(function(attendee) {
+            var init_x = scale(attendee.beacon);
+            return {
+                x: init_x,
+                y: init_y
+            }
+        });
+
+//        // add force simulations
+//        var simulation = d3.forceSimulation(nodes)
+//            .force('charge', d3.forceManyBody())
+//            .force('center', d3.forceCenter(width / 2, height / 2))
+//            .on('tick', ticked);
+//
+//        function ticked() {
+//            var u = d3.select('svg')
+//                    .selectAll('circle')
+//                    .data(nodes)
+//
+//            u.enter()
+//                    .append('circle')
+//                    .attr('r', 5)
+//                    .merge(u)
+//                    .attr('cx', function(d) {
+//                        return d.x
+//                    })
+//                    .attr('cy', function(d) {
+//                        return d.y
+//                    })
+//
+//            u.exit().remove()
+//        }
+
+//        the x-axis
 //        svg.append("g")
 //                .attr("class","x axis")
 //                .attr("transform","translate(0," + height + ")")
