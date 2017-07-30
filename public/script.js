@@ -90,15 +90,13 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
         .attr("class", "y axis")
         .attr("transform", "translate(-70,-10)")
         .call(yAxis)
-        .selectAll(".tick text")
-        .call(wrap, 80);
+        .selectAll(".tick text");
     // note: then place the work type labels on x
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0,-100)")
         .call(xAxis)
-        .selectAll(".tick text")
-        .call(wrap, x.rangeBand());
+        .selectAll(".tick text");
 
 
     //
@@ -189,8 +187,8 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
     function timer() {
         //debugger;
         d3.range(nodes.length).map(function(i) {
-            var curr_node = nodes[i],
-                curr_moves = curr_node.moves;
+        //    var curr_node = nodes[i],
+        //        curr_moves = curr_node.moves;
 
             // Time to go to next activity
             //if (curr_node.next_move_time == curr_minute) {
@@ -220,9 +218,12 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
             //
             //    nodes[i].next_move_time += nodes[i].sched[ curr_node.moves ].duration;
             //}
-
-
         });
+
+        if (curr_minute === 10) {
+            nodes[1].next_move_time = 11;
+            nodes[1].where = 'w';
+        }
 
         force.resume();
         curr_minute += 1;
@@ -301,30 +302,6 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
         };
     }
 
-    setTimeout(function() {
-
-    }, 5*1000);
-
-    // Speed toggle
-    d3.selectAll(".togglebutton")
-        .on("click", function() {
-            if (d3.select(this).attr("data-val") == "slow") {
-                d3.select(".slow").classed("current", true);
-                d3.select(".medium").classed("current", false);
-                d3.select(".fast").classed("current", false);
-            } else if (d3.select(this).attr("data-val") == "medium") {
-                d3.select(".slow").classed("current", false);
-                d3.select(".medium").classed("current", true);
-                d3.select(".fast").classed("current", false);
-            }
-            else {
-                d3.select(".slow").classed("current", false);
-                d3.select(".medium").classed("current", false);
-                d3.select(".fast").classed("current", true);
-            }
-
-            USER_SPEED = d3.select(this).attr("data-val");
-        });
 }); // @end d3.tsv
 
 
@@ -361,32 +338,6 @@ function colorByActivity(activity) {
     return color_by_activity[activity];
 
 }
-
-// wrap labels and center
-function wrap(text, width) {
-    text.each(function() {
-        var text = d3.select(this),
-            words = text.text().split(/\s+/).reverse(),
-            word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 1, // ems
-            y = text.attr("y"),
-            dy = parseFloat(text.attr("dy")),
-            tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-        while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(" "));
-            if (tspan.node().getComputedTextLength() > width) {
-                line.pop();
-                tspan.text(line.join(" "));
-                line = [word];
-                tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-            }
-        }
-    });
-}
-
 
 
 // Output readable percent based on count.
