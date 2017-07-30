@@ -20,22 +20,8 @@ var margin = {top: 105, right: 50, bottom: 50, left: 245 },
     radius = 5.8,
     damper = 0.9;
 
-// var width = 780,
-//     height = 800,
-// 	padding = 1,
-// 	maxRadius = 3;
-// 	// color = d3.scale.category10();
-
 var sched_objs = [],
     curr_minute = 0;
-
-// var act_codes = {
-// 	"unspecified" : {"short": "Home-Sleeping", "desc": "Sleeping"},
-// 	"0102": {"short": "Work", "desc": "Work"},
-// 	"0101": {"short": "Home-Sleeping", "desc": "Home"},
-// 	"other": {"short": "Other", "desc": "Other"},
-// 	"0200": {"short": "Other", "desc": "Traveling"},
-// };
 
 // Simplified
 var act_codes = {
@@ -44,35 +30,6 @@ var act_codes = {
     "h" : {"short": "Home-Sleeping", "desc": "Home or Sleeping"},
 };
 
-// var occ_names = {
-// 	"0110":	{ "name": "Management", color: "#6b8ef7" },
-// 	"0111":	{ "name": "Business Operations", color: "#7b99f8" },
-// 	"3":	{ "name": "Finance", color: "#abbffb" },
-// 	"0120":	{ "name": "Computer & Mathematical", color: "#05b1b5" },
-// 	"0121":	{ "name": "Architecture & Engineering", color: "#037173" },
-// 	"6":	{ "name": "Technicians", color: "#07d3d5" },
-// 	"0122":	{ "name": "Life & Social Science", color: "#048183" },
-// 	"0123":	{ "name": "Community & Social Services", color: "#e175e6" },
-// 	"0124":	{ "name": "Legal", color: "#2a5cf4" },
-// 	"0125":	{ "name": "Education & Library", color: "#9f1ea4" },
-// 	"0126":	{ "name": "Entertainment & Media", color: "#d43039" },
-// 	"0127":	{ "name": "Healthcare Practitioners", color: "#38c30b" },
-// 	"0130":	{ "name": "Healthcare Support", color: "#38c40a" },
-// 	"0131":	{ "name": "Protective Service", color: "#751679" },
-// 	"0132":	{ "name": "Food Preparation", color: "#e1b301" },
-// 	"0133":	{ "name": "Cleaning & Maintenance", color: "#bf9801" },
-// 	"0134":	{ "name": "Personal Care & Service", color: "#eaa0ee" },
-// 	"0140":	{ "name": "Sales", color: "#dd5a62" },
-// 	"0150":	{ "name": "Administrative Support", color: "#eca0a5" },
-// 	"0160":	{ "name": "Farming & Forestry", color: "#fedc5b" },
-// 	"0170":	{ "name": "Construction", color: "#cf6001" },
-// 	"22":	{ "name": "Extraction", color: "#feaf6a" },
-// 	"0180":	{ "name": "Maintenance & Repair", color: "#fe7805" },
-// 	"0190":	{ "name": "Production", color: "#fe9338" },
-// 	"0200":	{ "name": "Transportation", color: "#ffd3ae" },
-// 	"26":	{ "name": "Military", color: "#8c7001" },
-// 	// "27":	{ "name": "No Occupation", color: "#cccccc" }
-// }
 
 // Short versions.
 var occ_names = {
@@ -91,39 +48,9 @@ var occ_names = {
 
 var speeds = { "slow": 1000, "medium": 180, "fast": 50 };
 
-
-var time_notes = [
-    { "start_minute": 1, "stop_minute": 30, "note": "This is a simulated day of employed people in the United States, for various occupation groups." },
-    { "start_minute": 40, "stop_minute": 90, "note": "Each dot represents a person moving between work, home, and elsewhere. Colored, non-gray means a person is working." },
-    { "start_minute": 100, "stop_minute": 180, "note": "Occupations in farming, construction, and production tend to start early." },
-    { "start_minute": 190, "stop_minute": 290, "note": "Most people are at work or on their way." },
-    { "start_minute": 300, "stop_minute": 440, "note": "Some work from home, especially in business and professional fields." },
-    { "start_minute": 450, "stop_minute": 530, "note": "It's time for lunch." },
-    { "start_minute": 540, "stop_minute": 710, "note": "Back to work. But you can see people take breaks. (Dots turn gray at workplace.)" },
-    { "start_minute": 730, "stop_minute": 860, "note": "Calling it a day. Although some still work from home." },
-    { "start_minute": 900, "stop_minute": 1100, "note": "A day ends." },
-    { "start_minute": 1110, "stop_minute": 1380, "note": "Most people are sleeping or getting ready for bed." },
-    { "start_minute": 1390, "stop_minute": 1430, "note": "Another day is on the way..." },
-];
-var notes_index = 0;
-
-
 // // Activity to put in center of circle arrangement
-// var center_act = "Traveling",
-// 	center_pt = { "x": 380, "y": 365 };
-//
 //
 // // Coordinates for activities
-// var foci = {};
-// act_codes.forEach(function(code, i) {
-// 	if (code.desc == center_act) {
-// 		foci[code.index] = center_pt;
-// 	} else {
-// 		var theta = 2 * Math.PI / (act_codes.length-1);
-// 		foci[code.index] = {x: 250 * Math.cos(i * theta)+380, y: 250 * Math.sin(i * theta)+365 };
-// 	}
-// });
-// debugger;
 var x = d3.scale.ordinal()
     .rangePoints([0, width]);
 var xAxis = d3.svg.axis()
@@ -132,12 +59,6 @@ var xAxis = d3.svg.axis()
         return occ_names[d]['name'];
     })
     .orient("top");
-// var xGrid = d3.svg.axis()
-// 	.scale(x)
-//     .orient("bottom")
-//     .innerTickSize(-(height+margin.top));
-// .tickPadding(10);
-
 var y = d3.scale.ordinal()
     .domain(Object.keys(act_codes))
     .rangePoints([0, height]);
@@ -160,12 +81,9 @@ var svg = d3.select("#chart").append("svg")
 
 
 // Load data and let's do it.
-d3.tsv("data/whatwhere.tsv", function(error, data) {
+d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
 
-    //
     // Axes (note: placing the text labels on x and y axes)
-    //
-    debugger;
     x.domain(d3.map(data, function(d) { return d.grp; }).keys());
     // note: first place the location labels on y
     svg.append("g")
@@ -223,9 +141,9 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
 
 
     // A node for each person's schedule
-    debugger;
+
     var nodes = sched_objs.map(function(o,i) {
-        // debugger;
+        //
         var init = o[0];
         var init_x = x(init.grp) + Math.random();
         // add some randomization to the placement of the node in relation to exact .grp location on ordinal scale x-axis
@@ -269,38 +187,40 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
     // Update nodes based on activity and duration
     var intervalId = window.setInterval(timer, 180);
     function timer() {
+        //debugger;
         d3.range(nodes.length).map(function(i) {
             var curr_node = nodes[i],
                 curr_moves = curr_node.moves;
 
             // Time to go to next activity
-            if (curr_node.next_move_time == curr_minute) {
-                if (curr_node.moves == curr_node.sched.length-1) {
-                    curr_moves = 0;
-                } else {
-                    curr_moves += 1;
-                }
+            //if (curr_node.next_move_time == curr_minute) {
+            //    if (curr_node.moves == curr_node.sched.length-1) {
+            //        curr_moves = 0;
+            //    } else {
+            //        curr_moves += 1;
+            //    }
+            //
+            //    // Keep track of working and not working
+            //    if (curr_node.act == "w" && curr_node.sched[ curr_moves ].act == "o") {
+            //        occ_names[curr_node.grp].count -= 1;
+            //    } else if (curr_node.act == "o" && curr_node.sched[ curr_moves ].act == "w") {
+            //        occ_names[curr_node.grp].count += 1;
+            //    }
+            //
+            //    // Move on to next activity
+            //    curr_node.act = curr_node.sched[ curr_moves ].act;
+            //    curr_node.where = curr_node.sched[ curr_moves ].where;
+            //
+            //    // Add to new activity count
+            //    // act_counts[curr_node.act] += 1;
+            //
+            //    curr_node.moves = curr_moves;
+            //    curr_node.cx = x(curr_node.grp);
+            //    curr_node.cy = y(curr_node.where);
+            //
+            //    nodes[i].next_move_time += nodes[i].sched[ curr_node.moves ].duration;
+            //}
 
-                // Keep track of working and not working
-                if (curr_node.act == "w" && curr_node.sched[ curr_moves ].act == "o") {
-                    occ_names[curr_node.grp].count -= 1;
-                } else if (curr_node.act == "o" && curr_node.sched[ curr_moves ].act == "w") {
-                    occ_names[curr_node.grp].count += 1;
-                }
-
-                // Move on to next activity
-                curr_node.act = curr_node.sched[ curr_moves ].act;
-                curr_node.where = curr_node.sched[ curr_moves ].where;
-
-                // Add to new activity count
-                // act_counts[curr_node.act] += 1;
-
-                curr_node.moves = curr_moves;
-                curr_node.cx = x(curr_node.grp);
-                curr_node.cy = y(curr_node.where);
-
-                nodes[i].next_move_time += nodes[i].sched[ curr_node.moves ].duration;
-            }
 
         });
 
@@ -320,39 +240,16 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
         // Update time
         var true_minute = curr_minute % 1440;
         d3.select("#current_time").text(minutesToTime(true_minute));
-
-        // Update notes
-        // var true_minute = curr_minute % 1440;
-        if (true_minute == time_notes[notes_index].start_minute) {
-            d3.select("#note")
-                .transition()
-                .duration(600)
-                .style("color", "#000000")
-                .text(time_notes[notes_index].note);
-        }
-
-        // Make note disappear at the end.
-        else if (true_minute == time_notes[notes_index].stop_minute) {
-
-            d3.select("#note").transition()
-                .duration(600)
-                .style("color", "#ffffff");
-
-            notes_index += 1;
-            if (notes_index == time_notes.length) {
-                notes_index = 0;
-            }
-        }
     }
 
 
     function tick(e) {
-        // debugger;
+        //
         var k = 0.1 * e.alpha;
 
         // Push nodes toward their designated focus.
         nodes.forEach(function(o, i) {
-            // debugger;
+            //
             var curr_act = o.act;
 
             if (curr_act == "w") {
@@ -404,6 +301,9 @@ d3.tsv("data/whatwhere.tsv", function(error, data) {
         };
     }
 
+    setTimeout(function() {
+
+    }, 5*1000);
 
     // Speed toggle
     d3.selectAll(".togglebutton")

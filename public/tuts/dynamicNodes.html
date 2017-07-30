@@ -18,57 +18,93 @@
             shape-rendering: crispEdges;
         }
 
+        circle {
+            fill: cadetblue;
+        }
     </style>
 </head>
 <body>
     <div id="chart">
     </div>
 
+    <!--<div id="content">-->
+        <!--<svg width="300" height="300">-->
+        <!--</svg>-->
+    <!--</div>-->
+
+    <div id="content">
+        <svg width="700" height="400">
+            <g transform="translate(50, 200)"></g>
+        </svg>
+    </div>
+
     <script src='http://d3js.org/d3.v4.min.js'></script>
     <script>
-        var beacons = ["beaconOne","beaconTwo","beaconThree"];
-        var attendees = [
-            {
-                beacon: 'beaconOne'
-            },
-            {
-                beacon: 'beaconTwo'
-            },
-            {
-                beacon: 'beaconTwo'
-            }
-        ];
 
-        var margin = {top: 20, right: 20, bottom: 20, left: 200};
-        var init_y = 40;
+    //                         .___.__              .__
+    //          ___________  __| _/|__| ____ _____  |  |
+    //         /  _ \_  __ \/ __ | |  |/    \\__  \ |  |
+    //        (  <_> )  | \/ /_/ | |  |   |  \/ __ \|  |__
+    //         \____/|__|  \____ | |__|___|  (____  /____/
+    //                          \/         \/     \/
 
-        var width = 800 - margin.left - margin.right,
-            height = 80 - margin.top - margin.bottom;
+//        var beacons = ["beaconOne","beaconTwo","beaconThree"];
+//        var attendees = [
+//            {
+//                beacon: 'beaconOne'
+//            },
+//            {
+//                beacon: 'beaconTwo'
+//            },
+//            {
+//                beacon: 'beaconTwo'
+//            }
+//        ];
+//
+//        var margin = {top: 20, right: 20, bottom: 20, left: 200};
+//        var init_y = 40;
+//
+//        var width = 800 - margin.left - margin.right,
+//            height = 80 - margin.top - margin.bottom;
+//
+//        var svg = d3.select('#chart').append("svg")
+//                .attr("width", width + margin.left + margin.right)
+//                .attr("height", height + margin.top + margin.bottom)
+//                .append("g")
+//                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+//
+//        var scale = d3.scalePoint().domain(beacons)
+//                .range([0, width]);
+//
+//            // add circles
+//        svg.selectAll(".scaleOrdinal")
+//                .data(beacons)
+//                .enter().append("circle")
+//                .attr("r", 5)
+//                .attr("cy", 40)
+//                .attr("cx", function(d) { return scale(d); });
+//
+//        var nodes = attendees.map(function(attendee) {
+//            var init_x = scale(attendee.beacon);
+//            return {
+//                x: init_x,
+//                y: init_y
+//            }
+//        });
 
-        var svg = d3.select('#chart').append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    //                        _____
+    //        _____ ___.__. _/ ____\___________   ____  ____
+    //       /     <   |  | \   __\/  _ \_  __ \_/ ___\/ __ \
+    //      |  Y Y  \___  |  |  | (  <_> )  | \/\  \__\  ___/
+    //      |__|_|  / ____|  |__|  \____/|__|    \___  >___  >
+    //            \/\/                               \/    \/
+    //            .__              .__          __  .__
+    //       _____|__| _____  __ __|  | _____ _/  |_|__| ____   ____
+    //      /  ___/  |/     \|  |  \  | \__  \\   __\  |/  _ \ /    \
+    //      \___ \|  |  Y Y  \  |  /  |__/ __ \|  | |  (  <_> )   |  \
+    //      /____  >__|__|_|  /____/|____(____  /__| |__|\____/|___|  /
+    //           \/         \/                \/                    \/
 
-        var scale = d3.scalePoint().domain(beacons)
-                .range([0, width]);
-
-            // add circles
-        svg.selectAll(".scaleOrdinal")
-                .data(beacons)
-                .enter().append("circle")
-                .attr("r", 5)
-                .attr("cy", 40)
-                .attr("cx", function(d) { return scale(d); });
-
-        var nodes = attendees.map(function(attendee) {
-            var init_x = scale(attendee.beacon);
-            return {
-                x: init_x,
-                y: init_y
-            }
-        });
 
 //        // add force simulations
 //        var simulation = d3.forceSimulation(nodes)
@@ -100,6 +136,111 @@
 //                .attr("class","x axis")
 //                .attr("transform","translate(0," + height + ")")
 //                .call(d3.axisBottom(scale));
+
+    //        _____
+    //      _/ ____\___________   ____  ____
+    //      \   __\/  _ \_  __ \_/ ___\/ __ \
+    //       |  | (  <_> )  | \/\  \__\  ___/
+    //       |__|  \____/|__|    \___  >___  >
+    //                               \/    \/
+    //            .__              .__          __  .__
+    //       _____|__| _____  __ __|  | _____ _/  |_|__| ____   ____
+    //      /  ___/  |/     \|  |  \  | \__  \\   __\  |/  _ \ /    \
+    //      \___ \|  |  Y Y  \  |  /  |__/ __ \|  | |  (  <_> )   |  \
+    //      /____  >__|__|_|  /____/|____(____  /__| |__|\____/|___|  /
+    //           \/         \/                \/                    \/
+    //        __          __               .__       .__
+    //      _/  |_ __ ___/  |_  ___________|__|____  |  |
+    //      \   __\  |  \   __\/  _ \_  __ \  \__  \ |  |
+    //      |  | |  |  /|  | (  <_> )  | \/  |/ __ \|  |__
+    //      |__| |____/ |__|  \____/|__|  |__(____  /____/
+    //                                            \/
+
+//    var width = 300, height = 300;
+//    var radius = 5;
+//    var nodes = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
+//
+//    var simulation = d3.forceSimulation(nodes)
+//            .force('charge', d3.forceManyBody().strength(10))
+//            .force('center', d3.forceCenter(width / 2, height / 2))
+//            .force('collision', d3.forceCollide().radius(radius))
+//            .on('tick', ticked);
+//
+//    function ticked() {
+//        var u = d3.select('svg')
+//                .selectAll('circle')
+//                .data(nodes);
+//
+//        u.enter()
+//                .append('circle')
+//                .attr('r', radius)
+//                .merge(u)
+//                .attr('cx', function(d) {
+//                    return d.x
+//                })
+//                .attr('cy', function(d) {
+//                    return d.y
+//                });
+//
+//        u.exit().remove()
+//    }
+
+
+    var width = 600, height = 400;
+
+    var colorScale = ['orange', 'lightblue', '#B19CD9'];
+    var xCenter = [100, 300, 500]
+
+    var numNodes = 100;
+    var nodes = d3.range(numNodes).map(function(d, i) {
+        return {
+            radius: 5,
+            category: i % 3
+        }
+    });
+
+    var simulation = d3.forceSimulation(nodes)
+            .force('charge', d3.forceManyBody().strength(5))
+            .force('x', d3.forceX().x(function(d) {
+                return xCenter[d.category];
+            }))
+            .force('collision', d3.forceCollide().radius(function(d) {
+                return d.radius;
+            }))
+            .on('tick', ticked);
+
+    function ticked() {
+        var u = d3.select('svg g')
+                .selectAll('circle')
+                .data(nodes);
+
+        u.enter()
+                .append('circle')
+                .attr('r', function(d) {
+                    return d.radius;
+                })
+                .style('fill', function(d) {
+                    return colorScale[d.category];
+                })
+                .merge(u)
+                .attr('cx', function(d) {
+                    return d.x;
+                })
+                .attr('cy', function(d) {
+                    return d.y;
+                })
+
+        u.exit().remove();
+//        debugger;
+    }
+
+    setTimeout(function() {
+        debugger;
+        nodes[0].category = 1;
+//        simulation.alpha(0.8).restart();
+        simulation.alpha(0.8).resume();
+    }, 5*1000);
+//        debugger;
     </script>
 </body>
 </html>
