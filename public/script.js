@@ -24,7 +24,7 @@ var sched_objs = [],
     curr_minute = 0;
 
 // Simplified
-var act_codes = {
+var beacons = {
     "w": {"short": "Work", "desc": "At Workplace"},
     "o": {"short": "Other", "desc": "Somewhere Else"},
     "h" : {"short": "Home-Sleeping", "desc": "Home or Sleeping"},
@@ -34,15 +34,15 @@ var act_codes = {
 // Short versions.
 var occ_names = {
     "11":	{ "name": "Management, Business", color: "#6b8ef7", count: 0 },
-    "12":	{ "name": "Professional", color: "#05b1b5", count: 0 },
-    "13":	{ "name": "Services", color: "#38c40a", count: 0 },
-    "14":	{ "name": "Sales", color: "#dd5a62", count: 0 },
-    "15":	{ "name": "Administrative", color: "#eca0a5", count: 0 },
-    "16":	{ "name": "Farming", color: "#fedc5b", count: 0 },
-    "17":	{ "name": "Construction", color: "#cf6001", count: 0 },
-    "18":	{ "name": "Maintenance, Repair", color: "#fe7805", count: 0 },
-    "19":	{ "name": "Production", color: "#fe9338", count: 0 },
-    "20":	{ "name": "Transportation", color: "#ffd3ae", count: 0 },
+    //"12":	{ "name": "Professional", color: "#05b1b5", count: 0 },
+    //"13":	{ "name": "Services", color: "#38c40a", count: 0 },
+    //"14":	{ "name": "Sales", color: "#dd5a62", count: 0 },
+    //"15":	{ "name": "Administrative", color: "#eca0a5", count: 0 },
+    //"16":	{ "name": "Farming", color: "#fedc5b", count: 0 },
+    //"17":	{ "name": "Construction", color: "#cf6001", count: 0 },
+    //"18":	{ "name": "Maintenance, Repair", color: "#fe7805", count: 0 },
+    //"19":	{ "name": "Production", color: "#fe9338", count: 0 },
+    //"20":	{ "name": "Transportation", color: "#ffd3ae", count: 0 },
 }
 
 
@@ -60,14 +60,14 @@ var xAxis = d3.svg.axis()
     })
     .orient("top");
 var y = d3.scale.ordinal()
-    .domain(Object.keys(act_codes))
+    .domain(Object.keys(beacons))
     .rangePoints([0, height]);
 var yAxis = d3.svg.axis()
     .scale(y)
     .tickSize(40)
     .tickFormat(function(d) {
-        console.log(Object.keys(act_codes));
-        return act_codes[d]['desc'];
+        console.log(Object.keys(beacons));
+        return beacons[d]['desc'];
     })
     .orient("left");
 
@@ -82,9 +82,21 @@ var svg = d3.select("#chart").append("svg")
 
 // Load data and let's do it.
 d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
+    var otherData = [
+        {beacon: 2},
+        {beacon: 2},
+        {beacon: 2},
+        {beacon: 2},
+        {beacon: 2},
+        {beacon: 2},
+        {beacon: 2},
+        {beacon: 2},
+        {beacon: 2}
+    ];
 
     // Axes (note: placing the text labels on x and y axes)
     x.domain(d3.map(data, function(d) { return d.grp; }).keys());
+
     // note: first place the location labels on y
     svg.append("g")
         .attr("class", "y axis")
@@ -140,29 +152,46 @@ d3.tsv("data/whatwhere-onegroup.tsv", function(error, data) {
 
     // A node for each person's schedule
 
-    var nodes = sched_objs.map(function(o,i) {
-        //
-        var init = o[0];
-        var init_x = x(init.grp) + Math.random();
-        // add some randomization to the placement of the node in relation to exact .grp location on ordinal scale x-axis
-        var init_y = y(init.where) + Math.random();
-        if (init.act == "w") {
-            colorByOcc(init.grp)
-            occ_names[init.grp].count += 1;
-        } else {
-            var col = "#cccccc";
-        }
+    //var nodes = sched_objs.map(function(o,i) {
+    //    var init = o[0];
+    //    var init_x = x(init.grp) + Math.random();
+    //    // add some randomization to the placement of the node in relation to exact .grp location on ordinal scale x-axis
+    //    var init_y = y(init.where) + Math.random();
+    //    if (init.act == "w") {
+    //        colorByOcc(init.grp)
+    //        occ_names[init.grp].count += 1;
+    //    } else {
+    //        var col = "#cccccc";
+    //    }
+    //    return {
+    //        grp: init.grp,
+    //        act: init.act,
+    //        where: init.where,
+    //        radius: radius,
+    //        x: init_x,
+    //        y: init_y,
+    //        color: col,
+    //        moves: 0,
+    //        next_move_time: init.duration,
+    //        sched: o,
+    //    }
+    //});
+
+    var nodes = otherData.map(function(o) {
+        var init_x = x(11) + Math.random();
+        var init_y = y(o.beacon) + Math.random();
+        var col = "#cccccc";
+
         return {
-            grp: init.grp,
-            act: init.act,
-            where: init.where,
+            grp: 11,
+            act: 'o',
+            where: 'h',
             radius: radius,
             x: init_x,
             y: init_y,
             color: col,
             moves: 0,
-            next_move_time: init.duration,
-            sched: o,
+            next_move_time: 150
         }
     });
 
