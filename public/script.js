@@ -102,14 +102,13 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     // |___/\___|\__|\__,_| .__/
     //                    |_|
     var beacons = beaconList;
-    // Activity to put in center of circle arrangement
-    // Coordinates for activities
+    // activity to put in center of circle arrangement
+    // coordinates for activities
     var x = d3.scale.ordinal()
         .rangePoints([0, width]);
     var xAxis = d3.svg.axis()
         .scale(x)
         .tickFormat(function(d) {
-            // debugger;
             return occ_names[d]['name'];
         })
         .orient("top");
@@ -124,7 +123,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             return beacons[d]['name'];
         })
         .orient("left");
-    // Start the SVG
+    // start the svg
     var svg = d3.select("#chart").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -137,7 +136,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     // | | |  __| | | | (_| |  __| |
     // |_|  \___|_| |_|\__,_|\___|_|
 // debugger;
-    // Axes (note: placing the text labels on x and y axes)
+    // axes (note: placing the text labels on x and y axes)
     // x.domain(d3.map(data, function(d) { return d.grp; }).keys());
     x.domain(['beacons']);
 
@@ -174,15 +173,16 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         });
 
     var nodes = [];
-    for (user in activeUsers) {
+    for (userId in activeUsers) {
+        var user = activeUsers[userId];
         var init_x = x('beacons') + Math.random();
         var init_y = y(user.beaconId) + Math.random();
         var col = "#cccccc";
-
+// debugger;
         nodes.push({
             grp: 'beacons',
             act: user.beaconId,
-            next: 'B122ODGI',
+            next: user.beaconId,
             radius: radius,
             x: init_x,
             y: init_y,
@@ -252,6 +252,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
 // debugger;
         // Push nodes toward their designated focus.
         nodes.forEach(function(o, i) {
+            debugger;
             //
             // var curr_act = o.act;
 
