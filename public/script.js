@@ -176,15 +176,14 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         var col = "#cccccc";
 
         nodes.push({
+            attendeeId: userId,
             grp: 'beacons',
             act: user.beaconId,
             next: user.beaconId,
             radius: radius,
             x: init_x,
             y: init_y,
-            color: col,
-            moves: 0,
-            next_move_time: 150
+            color: col
         });
     }
 // debugger;
@@ -215,6 +214,27 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         //     //    ...
         // });
 
+        // loop through data, and check activeUsers for each id
+        // if the dataPoint is after the currentTime and the (next) beaconId is different from
+        // that of the corresponding activeUser, then change the (next) beaconId on the activeUser
+//         data.map(function(dataPoint){
+//             // var isDataPointInPast = currTimeMoment.isAfter(moment(dataPoint['Date'], dateFormat));
+//             var isDataPointInPast = moment(dataPoint['Date'], dateFormat).isAfter(currTimeMoment);
+//             var isBeaconChanged = dataPoint['Beacon ID'] !== activeUsers[dataPoint['Attendee ID']]['beaconId'];
+//             if (isDataPointInPast && isBeaconChanged) {
+// debugger;
+//                 activeUsers[dataPoint['Attendee ID']]['beaconId'] = dataPoint['Beacon ID'];
+//             }
+//         });
+//         // then for each node, check if the activeUser beaconId is different, and if so change the beaconId on the node
+//         nodes.map(function(node, i) {
+//             var isBeaconChanged = node.next !== activeUsers[node.attendeeId];
+//             if (isBeaconChanged) {
+// debugger;
+//                 nodes[i].next = activeUsers[node.attendeeId];
+//             }
+//         });
+
         if (curr_minute === 15) {
             nodes[1].next = 'Beacon1';
         }
@@ -233,8 +253,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             });
 
         // Update time
-        var true_minute = curr_minute % 1440;
-        d3.select("#current_time").text(minutesToTime(true_minute));
+        d3.select("#current_time").text(currTimeMoment.format('H:mm:ss'));
     }
 
     function tick(e) {
@@ -242,7 +261,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
 
         // Push nodes toward their designated focus.
         nodes.forEach(function(o, i) {
-            debugger;
             o.color = "#cccccc";
             o.x += (x('beacons') - o.x) * k * damper;
             o.y += (y(o.next) - o.y) * k * damper;
