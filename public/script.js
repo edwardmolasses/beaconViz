@@ -1,5 +1,5 @@
 var margin = {top: 105, right: 50, bottom: 50, left: 245 };
-var width = 1800 - margin.left - margin.right;
+var width = 500 - margin.left - margin.right;
 var height = 850 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
 var radius = 3;
@@ -94,7 +94,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         tempItem['Date'] = false;
         pushActiveUser(tempItem, activeUsers);
     });
-// debugger;
+
     //           _
     //  ___  ___| |_ _   _ _ __
     // / __|/ _ \ __| | | | '_ \
@@ -120,7 +120,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .tickSize(40)
         .tickFormat(function(d) {
             console.log(Object.keys(beacons));
-            return beacons[d]['name'];
+            return beacons[d]['id'];
         })
         .orient("left");
     // start the svg
@@ -135,7 +135,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     // | '__/ _ | '_ \ / _` |/ _ | '__|
     // | | |  __| | | | (_| |  __| |
     // |_|  \___|_| |_|\__,_|\___|_|
-// debugger;
     // axes (note: placing the text labels on x and y axes)
     // x.domain(d3.map(data, function(d) { return d.grp; }).keys());
     x.domain(['beacons']);
@@ -153,10 +152,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     //     .call(xAxis)
     //     .selectAll(".tick text");
 
-// debugger;
-    //
-    // Counters
-    //
+    // counters
     var counter = svg.selectAll(".counter")
         .data(Object.keys(occ_names))
         .enter().append("g")
@@ -178,7 +174,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         var init_x = x('beacons') + Math.random();
         var init_y = y(user.beaconId) + Math.random();
         var col = "#cccccc";
-// debugger;
+
         nodes.push({
             grp: 'beacons',
             act: user.beaconId,
@@ -207,21 +203,17 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .attr("r", function(d) { return d.radius; })
         .style("fill", function(d) { return d.color; });
 
-
     // Update nodes based on activity and duration
     var intervalId = window.setInterval(timer, 180);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curr_minute, 'minutes');
-// debugger;
-
-        // //debugger;
-        d3.range(nodes.length).map(function(i) {
-        //    var curr_node = nodes[i],
-        //        curr_moves = curr_node.moves;
-
-            // Time to go to next activity
-            //    ...
-        });
+        // d3.range(nodes.length).map(function(i) {
+        // //    var curr_node = nodes[i],
+        // //        curr_moves = curr_node.moves;
+        //
+        //     // Time to go to next activity
+        //     //    ...
+        // });
 
         if (curr_minute === 15) {
             nodes[1].next = 'Beacon1';
@@ -244,29 +236,14 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         var true_minute = curr_minute % 1440;
         d3.select("#current_time").text(minutesToTime(true_minute));
     }
-// debugger;
 
     function tick(e) {
-        //
         var k = 0.1 * e.alpha;
-// debugger;
+
         // Push nodes toward their designated focus.
         nodes.forEach(function(o, i) {
             debugger;
-            //
-            // var curr_act = o.act;
-
-            // if (curr_act == "w") {
-            //     o.color = colorByOcc(o.grp);
-            // } else {
-            //     o.color = "#cccccc";
-            // }
             o.color = "#cccccc";
-
-            // o.grp is ll-l9 on the ordinal scale
-            // x(o.grp) places us on the ordinal scale x-axis
-            // o.x is the initial x position with a small randomization
-            // k is our alpha (cooling parameter) with small adjustment
             o.x += (x('beacons') - o.x) * k * damper;
             o.y += (y(o.next) - o.y) * k * damper;
         });
@@ -277,7 +254,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             .attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; });
     }
-
 
     // Resolve collisions between nodes.
     function collide(alpha) {
@@ -310,21 +286,10 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
 }); // @end d3.tsv
 
 
-
-
-function colorByOcc(occ) {
-
-    return occ_names[occ].color;
-}
-
-// function colorByActivity(activity) {
-//  ...
-
-
 // Output readable percent based on count.
 function readablePercent(n) {
-
     var pct = 100 * n / 75;
+
     if (pct < 1 && pct > 0) {
         pct = "<1%";
     } else {
@@ -340,6 +305,7 @@ function minutesToTime(m) {
     var minutes = (m + 4*60) % 1440;
     var hh = Math.floor(minutes / 60);
     var ampm;
+
     if (hh > 12) {
         hh = hh - 12;
         ampm = "pm";
