@@ -1,3 +1,4 @@
+// action starts at tuesday, 8am
 var margin = {top: 105, right: 50, bottom: 50, left: 245 };
 var width = 500 - margin.left - margin.right;
 var height = 850 - margin.top - margin.bottom;
@@ -129,6 +130,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var color = d3.scale.category20c();
 
     //                     _
     //  _ __ ___ _ __   __| | ___ _ __
@@ -153,20 +155,20 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     //     .selectAll(".tick text");
 
     // counters
-    var counter = svg.selectAll(".counter")
-        .data(Object.keys(occ_names))
-        .enter().append("g")
-        .attr("class", "counter")
-        .attr("transform", function(d) { return "translate("+x(d)+",-60)"; })
-        .append("text")
-        .attr("text-anchor", "middle")
-        .text(function(d,i) {
-            if (i == 0) {
-                return readablePercent(occ_names[d].count) + " Working";
-            } else {
-                return readablePercent(occ_names[d].count);
-            }
-        });
+    // var counter = svg.selectAll(".counter")
+    //     .data(Object.keys(occ_names))
+    //     .enter().append("g")
+    //     .attr("class", "counter")
+    //     .attr("transform", function(d) { return "translate("+x(d)+",-60)"; })
+    //     .append("text")
+    //     .attr("text-anchor", "middle")
+    //     .text(function(d,i) {
+    //         if (i == 0) {
+    //             return readablePercent(occ_names[d].count) + " Working";
+    //         } else {
+    //             return readablePercent(occ_names[d].count);
+    //         }
+    //     });
 
     var nodes = [];
     for (userId in activeUsers) {
@@ -186,7 +188,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             color: col
         });
     }
-// debugger;
+
     var force = d3.layout.force()
         .nodes(nodes)
         .size([width, height])
@@ -195,51 +197,36 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .friction(.9)
         .on("tick", tick)
         .start();
-// debugger;
     var circle = svg.selectAll("circle")
         .data(nodes)
         .enter().append("circle")
         .attr("r", function(d) { return d.radius; })
-        .style("fill", function(d) { return d.color; });
+        .attr("fill",function(d,i){return color(i);});
 
     // Update nodes based on activity and duration
-    var intervalId = window.setInterval(timer, 180);
+    var intervalId = window.setInterval(timer, 50);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curr_minute, 'minutes');
-        // d3.range(nodes.length).map(function(i) {
-        // //    var curr_node = nodes[i],
-        // //        curr_moves = curr_node.moves;
-        //
-        //     // Time to go to next activity
-        //     //    ...
-        // });
-
-console.log('%c[script.js:218]\ncurrTimeMoment.format(HH:mm:ss) \n(see below): ','font-size:25px;color:thistle;'); console.log(currTimeMoment.format('HH:mm'));
         // loop through data, and check activeUsers for each id
         // if the dataPoint is after the currentTime and the (next) beaconId is different from
         // that of the corresponding activeUser, then change the (next) beaconId on the activeUser
         data.map(function(dataPoint){
             var isDataPointInPast = currTimeMoment.isAfter(moment(dataPoint['Date'], dateFormat));
-            // var isDataPointInPast = moment(dataPoint['Date'], dateFormat).isAfter(currTimeMoment);
-            var isBeaconChanged = dataPoint['Beacon ID'] !== activeUsers[dataPoint['Attendee ID']]['beaconId'];
+            var activeUserBeaconId = activeUsers[dataPoint['Attendee ID']]['beaconId'];
+            var isBeaconChanged = dataPoint['Beacon ID'] !== activeUserBeaconId;
             if (isDataPointInPast && isBeaconChanged) {
-// debugger;
                 activeUsers[dataPoint['Attendee ID']]['beaconId'] = dataPoint['Beacon ID'];
             }
         });
-debugger;
-//         // then for each node, check if the activeUser beaconId is different, and if so change the beaconId on the node
-//         nodes.map(function(node, i) {
-//             var isBeaconChanged = node.next !== activeUsers[node.attendeeId];
-//             if (isBeaconChanged) {
-// debugger;
-//                 nodes[i].next = activeUsers[node.attendeeId];
-//             }
-//         });
 
-        if (curr_minute === 15) {
-            nodes[1].next = 'Beacon1';
-        }
+        // then for each node, check if the activeUser beaconId is different, and if so change the beaconId on the node
+        nodes.map(function(node, i) {
+            var activeUserBeaconId = activeUsers[node.attendeeId]['beaconId'];
+            var isBeaconChanged = node.next !== activeUserBeaconId;
+            if (isBeaconChanged) {
+                nodes[i].next = activeUserBeaconId;
+            }
+        });
 
         force.resume();
         curr_minute += 1;
@@ -255,7 +242,7 @@ debugger;
             });
 
         // Update time
-        d3.select("#current_time").text(currTimeMoment.format('H:mm:ss'));
+        d3.select("#current_time").text(currTimeMoment.format('dddd h:mm a'));
     }
 
     function tick(e) {
@@ -270,9 +257,9 @@ debugger;
 
         circle
             .each(collide(.5))
-            .style("fill", function(d) { return d.color; })
             .attr("cx", function(d) { return d.x; })
-            .attr("cy", function(d) { return d.y; });
+            .attr("cy", function(d) { return d.y; })
+            .attr("fill",function(d,i){return color(i);});
     }
 
     // Resolve collisions between nodes.
@@ -317,30 +304,4 @@ function readablePercent(n) {
     }
 
     return pct;
-}
-
-
-// Minutes to time of day. Data is minutes from 4am.
-function minutesToTime(m) {
-    var minutes = (m + 4*60) % 1440;
-    var hh = Math.floor(minutes / 60);
-    var ampm;
-
-    if (hh > 12) {
-        hh = hh - 12;
-        ampm = "pm";
-    } else if (hh == 12) {
-        ampm = "pm";
-    } else if (hh == 0) {
-        hh = 12;
-        ampm = "am";
-    } else {
-        ampm = "am";
-    }
-    var mm = minutes % 60;
-    if (mm < 10) {
-        mm = "0" + mm;
-    }
-
-    return hh + ":" + mm + ampm
 }
