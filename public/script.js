@@ -1,7 +1,7 @@
 // action starts at tuesday, 8am
 var margin = {top: 105, right: 50, bottom: 50, left: 245 };
 var width = 500 - margin.left - margin.right;
-var height = 850 - margin.top - margin.bottom;
+var height = 650 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
 var radius = 3;
 var damper = 0.9;
@@ -120,7 +120,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .scale(y)
         .tickSize(40)
         .tickFormat(function(d) {
-            console.log(Object.keys(beacons));
             return beacons[d]['id'];
         })
         .orient("left");
@@ -207,6 +206,12 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     var intervalId = window.setInterval(timer, 50);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curr_minute, 'minutes');
+
+        if (currTimeMoment.isAfter(moment(maxDate, dateFormat))) { // stop timer after last event
+            clearInterval(intervalId);
+            d3.select("#current_time").text('Finished!');
+            return;
+        }
         // loop through data, and check activeUsers for each id
         // if the dataPoint is after the currentTime and the (next) beaconId is different from
         // that of the corresponding activeUser, then change the (next) beaconId on the activeUser
