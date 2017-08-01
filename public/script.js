@@ -129,7 +129,10 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    var color = d3.scale.category20c();
+    // var color = d3.scale.category20c();
+    var color = function(i) {
+        return '#0B7FB2';
+    };
 
     //                     _
     //  _ __ ___ _ __   __| | ___ _ __
