@@ -5,7 +5,7 @@ var height = 650 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
 var radius = 3.3;
 var damper = 0.9;
-var curr_minute = 0;
+var curr_minute = 1000;
 var currTimeMoment;
 
 // Short versions.
@@ -74,6 +74,20 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             minorNumber: userObj['Minor Number']
         };
     };
+    var radialScale = function(x0, y0, r, keysArr) {
+        var interPointDistance = 2 * Math.PI / (keysArr.length - 1);
+        var coordArray = [];
+
+        keysArr.forEach(function(key, index){
+            var theta = index * interPointDistance;
+            coordArray[key] = {
+                x: x0 + r * Math.cos(theta),
+                y: y0 + r * Math.sin(theta)
+            };
+        });
+
+        return coordArray;
+    };
 
     beaconList[inactiveBeaconKey] = {
         name: 'Inactive Users',
@@ -132,6 +146,13 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     var color = d3.scale.category20c();
+    var indexOfInactiveBeacon = Object.keys(beaconList).indexOf('INACTIVE');
+    var beaconKeys = Object.keys(beaconList);
+    beaconKeys.splice(indexOfInactiveBeacon, 1);
+    var radialBeaconScaleX0 = 0;
+    var radialBeaconScaleY0 = 0;
+    var radialBeaconScale = radialScale(radialBeaconScaleX0, radialBeaconScaleY0, 10, beaconKeys);
+    // radialBeaconScale['INACTIVE'] = {radialBeaconScaleX0,radialBeaconScaleY0};
     // var color = function(i) {
     //     return '#0B7FB2';
     // };
@@ -180,7 +201,8 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         var init_x = x('beacons') + Math.random();
         var init_y = y(user.beaconId) + Math.random();
         var col = "#cccccc";
-
+        // radialBeaconScale(user.beaconId)
+// debugger;
         nodes.push({
             attendeeId: userId,
             grp: 'beacons',
@@ -291,7 +313,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             });
         };
     }
-
 }); // @end d3.csv
 
 
@@ -306,14 +327,4 @@ function readablePercent(n) {
     }
 
     return pct;
-}
-
-function radialScale(nodes, index) {
-    var r = 10;
-    var x0 = 0;
-    var y0 = 0;
-    var interPointDistance = 2 * Math.PI / (nodes.length - 1);
-    var theta = index * interPointDistance;
-
-    return [x0 + r * Math.cos(theta), y0 + r * Math.sin(theta)];
 }
