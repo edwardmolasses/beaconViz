@@ -202,7 +202,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         var init_y = y(user.beaconId) + Math.random();
         var col = "#cccccc";
         // radialBeaconScale(user.beaconId)
-// debugger;
+
         nodes.push({
             attendeeId: userId,
             grp: 'beacons',
@@ -230,7 +230,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .attr("fill",function(d,i){return color(i);});
 
     // Update nodes based on activity and duration
-    var intervalId = window.setInterval(timer, 50);
+    var intervalId = window.setInterval(timer, 100);
     function timer() {
         currTimeMoment = moment(minDate, dateFormat).add(curr_minute, 'minutes');
 
