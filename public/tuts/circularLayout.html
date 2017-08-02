@@ -20,7 +20,7 @@
 
 // some made-up data
 //var buckets = ["one","two","three"];
-var buckets = [1,1,1];
+var buckets = [{},{},{}];
 //var buckets = [1,1,1,1,3,2,1,1,1,1,3,2];
 
 var dataObjs = [
@@ -48,13 +48,13 @@ var radiusScale = d3.scale.sqrt()
 var roughCircumference = d3.sum(buckets.map(radiusScale)) * 2 + padding * (buckets.length - 1);
 var radius = roughCircumference / (Math.PI * 2);
 
-debugger;
+//debugger;
 // make a radial tree layout
 // by the time we are here, the x's and y's for circular coords are already set
 var tree = d3.layout.tree()
         .size([360, radius]);
 
-debugger;
+//debugger;
 // make the svg
 var svg = d3.select("body").append("svg")
         .attr("width", w + m * 2)
@@ -64,14 +64,14 @@ var svg = d3.select("body").append("svg")
 
 // apply the layout to the data
 var nodes = tree.nodes(dataTree);
-debugger;
+//debugger;
 // create dom elements for the node
 var node = svg.selectAll(".node")
-        .data(nodes.slice(1)) // cut out the root node, we don't need it
+//        .data(nodes.slice(1)) // cut out the root node, we don't need it
+        .data(nodes) // cut out the root node, we don't need it
         .enter().append("g")
         .attr("class", "node")
         .attr("transform", function(d) {
-//            debugger;
             return "rotate(" + (d.x - 90) + ") translate(" + d.y + ")";
         });
 
@@ -79,9 +79,20 @@ var node = svg.selectAll(".node")
 // the tree layout will populate each node with coords and parent and child elements
 // the center element, (180,0) will have the other elements surrounding it as it's children
 // and it will be the parent
-
 node.append("circle")
         .attr("r", function(d) { return mainRadius; });
+
+
+function radialScale(nodes, index) {
+    var r = 10;
+    var x0 = 0;
+    var y0 = 0;
+    var interPointDistance = 2 * Math.PI / (nodes.length - 1);
+    var theta = index * interPointDistance;
+
+    return [x0 + r * Math.cos(theta), y0 + r * Math.sin(theta)];
+}
+debugger;
 
 </script>
 </body>

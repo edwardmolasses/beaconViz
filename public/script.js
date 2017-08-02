@@ -3,7 +3,7 @@ var margin = {top: 105, right: 50, bottom: 50, left: 245 };
 var width = 500 - margin.left - margin.right;
 var height = 650 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
-var radius = 3;
+var radius = 3.3;
 var damper = 0.9;
 var curr_minute = 0;
 var currTimeMoment;
@@ -12,6 +12,8 @@ var currTimeMoment;
 var occ_names = {
     "beacons":	{ "name": "Beacons", color: "#6b8ef7", count: 0 }
 };
+
+
 
 // Load data and let's do it.
 d3.csv("data/qm_beacons.csv", function(error, data) {
@@ -129,10 +131,10 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    // var color = d3.scale.category20c();
-    var color = function(i) {
-        return '#0B7FB2';
-    };
+    var color = d3.scale.category20c();
+    // var color = function(i) {
+    //     return '#0B7FB2';
+    // };
 
     //                     _
     //  _ __ ___ _ __   __| | ___ _ __
@@ -240,14 +242,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         curr_minute += 1;
 
         // Update percentages
-        svg.selectAll(".counter text")
-            .text(function(d, i) {
-                if (i == 0) {
-                    return readablePercent(occ_names[d].count) + " Working";
-                } else {
-                    return readablePercent(occ_names[d].count);
-                }
-            });
+        // ...
 
         // Update time
         d3.select("#current_time").text(currTimeMoment.format('dddd h:mm a'));
@@ -258,7 +253,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
 
         // Push nodes toward their designated focus.
         nodes.forEach(function(o, i) {
-            o.color = "#cccccc";
             o.x += (x('beacons') - o.x) * k * damper;
             o.y += (y(o.next) - o.y) * k * damper;
         });
@@ -298,7 +292,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         };
     }
 
-}); // @end d3.tsv
+}); // @end d3.csv
 
 
 // Output readable percent based on count.
@@ -312,4 +306,14 @@ function readablePercent(n) {
     }
 
     return pct;
+}
+
+function radialScale(nodes, index) {
+    var r = 10;
+    var x0 = 0;
+    var y0 = 0;
+    var interPointDistance = 2 * Math.PI / (nodes.length - 1);
+    var theta = index * interPointDistance;
+
+    return [x0 + r * Math.cos(theta), y0 + r * Math.sin(theta)];
 }
