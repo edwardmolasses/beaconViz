@@ -1,6 +1,6 @@
 // action starts at tuesday, 8am
 var margin = {top: 105, right: 50, bottom: 50, left: 245 };
-var width = 700 - margin.left - margin.right;
+var width = 1500 - margin.left - margin.right;
 var height = 650 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
 var radius = 3.3;
@@ -75,7 +75,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         };
     };
     var radialScale = function(x0, y0, r, keysArr) {
-        var interPointDistance = 2 * Math.PI / (keysArr.length - 1);
+        var interPointDistance = 2 * Math.PI / (keysArr.length);
         var coordArray = [];
 
         keysArr.forEach(function(key, index){
@@ -149,13 +149,11 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     var indexOfInactiveBeacon = Object.keys(beaconList).indexOf('INACTIVE');
     var beaconKeys = Object.keys(beaconList);
     beaconKeys.splice(indexOfInactiveBeacon, 1);
-    var radialBeaconScaleX0 = 100;
-    var radialBeaconScaleY0 = 200;
+    var radialBeaconScaleX0 = 700;
+    var radialBeaconScaleY0 = 300;
     var radialBeaconScale = radialScale(radialBeaconScaleX0, radialBeaconScaleY0, 150, beaconKeys);
     radialBeaconScale['INACTIVE'] = {x: radialBeaconScaleX0, y: radialBeaconScaleY0};
-    // var color = function(i) {
-    //     return '#0B7FB2';
-    // };
+    // var color = function(i) { return '#0B7FB2'; };
 
     //                     _
     //  _ __ ___ _ __   __| | ___ _ __
@@ -164,36 +162,16 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     // |_|  \___|_| |_|\__,_|\___|_|
     // axes (note: placing the text labels on x and y axes)
     // x.domain(d3.map(data, function(d) { return d.grp; }).keys());
+    var radialBeaconScaleTicks = radialScale(radialBeaconScaleX0, radialBeaconScaleY0, 250, beaconKeys);
     x.domain(['beacons']);
+    beaconKeys.map(function(beaconName){
+        var coords = radialBeaconScaleTicks[beaconName];
 
-    // note: first place the location labels on y
-    svg.append("g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(-70,-10)")
-        .call(yAxis)
-        .selectAll(".tick text");
-    // note: then place the work type labels on x
-    // svg.append("g")
-    //     .attr("class", "x axis")
-    //     .attr("transform", "translate(0,-100)")
-    //     .call(xAxis)
-    //     .selectAll(".tick text");
-
-    // counters
-    // var counter = svg.selectAll(".counter")
-    //     .data(Object.keys(occ_names))
-    //     .enter().append("g")
-    //     .attr("class", "counter")
-    //     .attr("transform", function(d) { return "translate("+x(d)+",-60)"; })
-    //     .append("text")
-    //     .attr("text-anchor", "middle")
-    //     .text(function(d,i) {
-    //         if (i == 0) {
-    //             return readablePercent(occ_names[d].count) + " Working";
-    //         } else {
-    //             return readablePercent(occ_names[d].count);
-    //         }
-    //     });
+        svg.append("text")
+            .attr("x", coords.x - 30)
+            .attr("y", coords.y)
+            .text(beaconName);
+    });
 
     var nodes = [];
     for (userId in activeUsers) {
