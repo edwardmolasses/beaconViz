@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b79c0aa-315b-46fb-9b8a-7f67c6431df3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/radial.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/index.html" afterPath="$PROJECT_DIR$/public/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/radial.js" afterPath="$PROJECT_DIR$/public/radial.js" />
     </list>
     <ignored path="BeaconViz.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="radial.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/radial.js">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.023572076">
-              <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.30064756">
+              <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -70,8 +70,8 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_33.js" />
         <option value="$PROJECT_DIR$/public/tuts/circularLayout.html" />
         <option value="$PROJECT_DIR$/public/script.js" />
-        <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/public/radial.js" />
+        <option value="$PROJECT_DIR$/public/index.html" />
       </list>
     </option>
   </component>
@@ -164,14 +164,14 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/tuts" />
+      <recent name="$PROJECT_DIR$/data" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/public/tuts" />
       <recent name="$PROJECT_DIR$/public/data" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/public/tuts" />
-      <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
   <component name="RunManager">
@@ -810,10 +810,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
+    <entry file="file://$PROJECT_DIR$/public/radial.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30064756">
-          <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.023572076">
+          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+          <folding>
+            <marker date="1501730437000" expanded="true" signature="401:469" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="556:10788" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="563:840" placeholder="//..." />
+            <marker date="1501730437000" expanded="true" signature="1047:1084" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="1146:1376" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="1191:1369" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="1411:1667" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="1705:2017" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="1786:1988" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="1914:1978" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="2075:2529" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="2123:2522" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="2582:2958" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="2723:2922" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="2807:2911" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="2997:3071" placeholder="{&quot;name&quot;: 'Inactive Users'...}" />
+            <marker date="1501730437000" expanded="true" signature="3223:3907" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="3393:3734" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="3915:4091" placeholder="//..." />
+            <marker date="1501730437000" expanded="true" signature="4126:4210" placeholder="//..." />
+            <marker date="1501730437000" expanded="true" signature="4356:4408" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="4640:4688" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="5533:5839" placeholder="//..." />
+            <marker date="1501730437000" expanded="true" signature="6011:6205" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="6261:6864" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="6399:6500" placeholder="//..." />
+            <marker date="1501730437000" expanded="true" signature="6623:6856" placeholder="{&quot;grp&quot;: 'beacons'...}" />
+            <marker date="1501730437000" expanded="true" signature="7388:9060" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="7538:7697" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="7706:7955" placeholder="//..." />
+            <marker date="1501730437000" expanded="true" signature="7992:8433" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="8316:8423" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="8593:8852" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="8775:8842" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="8915:8951" placeholder="//..." />
+            <marker date="1501730437000" expanded="true" signature="9083:9711" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="9207:9491" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="9285:9381" placeholder="//..." />
+            <marker date="1501730437000" expanded="true" signature="9782:10786" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="9859:10779" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="10092:10767" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="10148:10684" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="10430:10666" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="10879:11035" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="10938:10966" placeholder="{...}" />
+            <marker date="1501730437000" expanded="true" signature="10972:11016" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/radial.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <marker date="1501729065000" expanded="true" signature="32:658" placeholder="..." />
             <marker date="1501729065000" expanded="true" signature="39:347" placeholder="..." />
@@ -823,10 +878,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/radial.js">
+    <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.023572076">
-          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.30064756">
+          <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
           <folding />
         </state>
       </provider>
