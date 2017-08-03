@@ -168,7 +168,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         var coords = radialBeaconScaleTicks[beaconName];
 
         svg.append("text")
-            .attr("x", coords.x - 30)
+            .attr("x", coords.x - 40)
             .attr("y", coords.y)
             .text(beaconName);
     });
@@ -243,9 +243,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         force.resume();
         curr_minute += 1;
 
-        // Update percentages
-        // ...
-
         // Update time
         d3.select("#current_time").text(currTimeMoment.format('dddd h:mm a'));
     }
@@ -255,10 +252,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
 
         // Push nodes toward their designated focus.
         nodes.forEach(function(o, i) {
-//debugger;
             var coords = radialBeaconScale[o.next];
-            //o.x += (x('beacons') - o.x) * k * damper;
-            //o.y += (y(o.next) - o.y) * k * damper;
             o.x += (coords.x - o.x) * k * damper;
             o.y += (coords.y - o.y) * k * damper;
         });
