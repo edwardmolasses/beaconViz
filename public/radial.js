@@ -7,6 +7,8 @@ var radius = 3.3;
 var damper = 0.9;
 var curr_minute = 1000;
 var currTimeMoment;
+var radialX0 = 450;
+var radialY0 = 250;
 
 // Short versions.
 var occ_names = {
@@ -149,8 +151,8 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     var indexOfInactiveBeacon = Object.keys(beaconList).indexOf('INACTIVE');
     var beaconKeys = Object.keys(beaconList);
     beaconKeys.splice(indexOfInactiveBeacon, 1);
-    var radialBeaconScaleX0 = 700;
-    var radialBeaconScaleY0 = 300;
+    var radialBeaconScaleX0 = radialX0;
+    var radialBeaconScaleY0 = radialY0;
     var radialBeaconScale = radialScale(radialBeaconScaleX0, radialBeaconScaleY0, 150, beaconKeys);
     radialBeaconScale['INACTIVE'] = {x: radialBeaconScaleX0, y: radialBeaconScaleY0};
     // var color = function(i) { return '#0B7FB2'; };
