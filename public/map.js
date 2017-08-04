@@ -3,7 +3,7 @@ var margin = {top: 50, right: 50, bottom: 50, left: 0 };
 var width = 1500 - margin.left - margin.right;
 var height = 600 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
-var radius = 3.3;
+var radius = 4;
 var damper = 0.9;
 var curr_minute = 1100;
 var currTimeMoment;
@@ -181,7 +181,9 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    var color = d3.scale.category20c();
+    //var color = d3.scale.category20c();
+    var color = function(i) { return '#0B7FB2'; };
+    //var color = function(i) { return '#333'; };
     var indexOfInactiveBeacon = Object.keys(beaconList).indexOf('INACTIVE');
     var beaconKeys = Object.keys(beaconList);
     beaconKeys.splice(indexOfInactiveBeacon, 1);
@@ -189,7 +191,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     var radialBeaconScaleY0 = radialY0;
     var radialBeaconScale = mapScale(radialBeaconScaleX0, radialBeaconScaleY0, 150, beaconKeys);
     radialBeaconScale['INACTIVE'] = {x: 560, y: 260};
-    // var color = function(i) { return '#0B7FB2'; };
 debugger;
     //                     _
     //  _ __ ___ _ __   __| | ___ _ __
