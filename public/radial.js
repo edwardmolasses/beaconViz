@@ -1,14 +1,14 @@
 // action starts at tuesday, 8am
 var margin = {top: 105, right: 50, bottom: 50, left: 245 };
-var width = 1500 - margin.left - margin.right;
-var height = 650 - margin.top - margin.bottom;
+var width = 800 - margin.left - margin.right;
+var height = 600 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
 var radius = 3.3;
 var damper = 0.9;
 var curr_minute = 1000;
 var currTimeMoment;
-var radialX0 = 450;
-var radialY0 = 250;
+var radialX0 = 150;
+var radialY0 = 200;
 
 // Short versions.
 var occ_names = {
