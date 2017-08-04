@@ -5,10 +5,12 @@ var height = 600 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
 var radius = 3.3;
 var damper = 0.9;
-var curr_minute = 1000;
+var curr_minute = 1100;
 var currTimeMoment;
 var radialX0 = 150;
 var radialY0 = 200;
+var xAdjust = 100;
+var yAdjust = 0;
 
 // Short versions.
 var occ_names = {
@@ -96,25 +98,25 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         keysArr.forEach(function(key, index){
             switch (key) {
                 case "Beacon1":
-                    coordArray[key] = {x: 580, y: 410}; // entrance - left
+                    coordArray[key] = {x: 580 + xAdjust, y: 410}; // entrance - left
                     break;
                 case "B42YDUJ":
-                    coordArray[key] = {x: 750, y: 410}; // entrance - right
+                    coordArray[key] = {x: 750 + xAdjust, y: 410}; // entrance - right
                     break;
                 case "B134EQBK":
-                    coordArray[key] = {x: 630, y: 520}; // coat room
+                    coordArray[key] = {x: 630 + xAdjust, y: 510}; // coat room
                     break;
                 case "B135TISL":
-                    coordArray[key] = {x: 660, y: 460}; // entrance - bottom
+                    coordArray[key] = {x: 660 + xAdjust, y: 460}; // entrance - bottom
                     break;
                 case "B122ODGI":
-                    coordArray[key] = {x: 725, y: 130}; // logistics
+                    coordArray[key] = {x: 720 + xAdjust, y: 150}; // logistics
                     break;
                 case "B133RHQY":
-                    coordArray[key] = {x: 670, y: 350}; // entrance - top
+                    coordArray[key] = {x: 660 + xAdjust, y: 360}; // entrance - top
                     break;
                 case "B1XCBN":
-                    coordArray[key] = {x: 220, y: 410}; // bottom left
+                    coordArray[key] = {x: 250 + xAdjust, y: 410}; // bottom left
                     //coordArray[key] = {x: 0, y: 0};
                     break;
             }
@@ -186,7 +188,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     var radialBeaconScaleX0 = radialX0;
     var radialBeaconScaleY0 = radialY0;
     var radialBeaconScale = mapScale(radialBeaconScaleX0, radialBeaconScaleY0, 150, beaconKeys);
-    radialBeaconScale['INACTIVE'] = {x: 50, y: 240};
+    radialBeaconScale['INACTIVE'] = {x: 150, y: 260};
     // var color = function(i) { return '#0B7FB2'; };
 debugger;
     //                     _
