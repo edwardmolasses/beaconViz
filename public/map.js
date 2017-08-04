@@ -78,20 +78,6 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
             minorNumber: userObj['Minor Number']
         };
     };
-    var radialScale = function(x0, y0, r, keysArr) {
-        var interPointDistance = 2 * Math.PI / (keysArr.length);
-        var coordArray = [];
-
-        keysArr.forEach(function(key, index){
-            var theta = index * interPointDistance;
-            coordArray[key] = {
-                x: x0 + r * Math.cos(theta),
-                y: y0 + r * Math.sin(theta)
-            };
-        });
-
-        return coordArray;
-    };
     var mapScale = function(x0, y0, r, keysArr) {
         var coordArray = [];
 
@@ -182,7 +168,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     //var color = d3.scale.category20c();
-    var color = function(i) { return '#0B7FB2'; };
+    var color = function(i) { return '#159bc7'; };
     //var color = function(i) { return '#333'; };
     var indexOfInactiveBeacon = Object.keys(beaconList).indexOf('INACTIVE');
     var beaconKeys = Object.keys(beaconList);
