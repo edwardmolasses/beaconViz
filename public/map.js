@@ -188,7 +188,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     var radialBeaconScaleX0 = radialX0;
     var radialBeaconScaleY0 = radialY0;
     var radialBeaconScale = mapScale(radialBeaconScaleX0, radialBeaconScaleY0, 150, beaconKeys);
-    radialBeaconScale['INACTIVE'] = {x: 150, y: 260};
+    radialBeaconScale['INACTIVE'] = {x: 560, y: 260};
     // var color = function(i) { return '#0B7FB2'; };
 debugger;
     //                     _
