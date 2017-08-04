@@ -3,7 +3,7 @@ var margin = {top: 105, right: 50, bottom: 50, left: 245 };
 var width = 800 - margin.left - margin.right;
 var height = 600 - margin.top - margin.bottom;
 var padding = 3; // some kind of animation parameter for the effect of collision between nodes ??
-var radius = 3.3;
+var radius = 4;
 var damper = 0.9;
 var curr_minute = 1000;
 var currTimeMoment;
