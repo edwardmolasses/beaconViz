@@ -235,3 +235,10 @@ a:hover {
 path.domain {
     display: none;
 }
+
+.beacon-tick {
+    font-size: 11px !important;
+    color: red;
+    padding: 3px !important;
+    border: solid 1px #eee !important;
+}
