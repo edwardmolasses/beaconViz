@@ -96,7 +96,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
                     coordArray[key] = {x: 660 + xAdjust +x0, y: 460 + y0}; // entrance - bottom
                     break;
                 case "B122ODGI":
-                    coordArray[key] = {x: 720 + xAdjust +x0, y: 120 + y0}; // logistics
+                    coordArray[key] = {x: 460 + xAdjust +x0, y: 110 + y0}; // long room - top
                     break;
                 case "B133RHQY":
                     coordArray[key] = {x: 660 + xAdjust +x0, y: 360 + y0}; // entrance - top
