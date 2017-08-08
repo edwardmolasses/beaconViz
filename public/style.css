@@ -242,3 +242,12 @@ path.domain {
     padding: 3px !important;
     border: solid 1px #eee !important;
 }
+
+.button {
+    cursor: pointer;
+}
+
+.button::after {
+    content: "hallo";
+    color: black;
+}

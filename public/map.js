@@ -220,14 +220,18 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         });
     }
 
-    var force = d3.layout.force()
-        .nodes(nodes)
-        .size([width, height])
-        .gravity(0)
-        .charge(0)
-        .friction(.9)
-        .on("tick", tick)
-        .start();
+    var forceStart = function() {
+        curr_minute = 1100;
+        return d3.layout.force()
+            .nodes(nodes)
+            .size([width, height])
+            .gravity(0)
+            .charge(0)
+            .friction(.9)
+            .on("tick", tick)
+            .start();
+    };
+    var force = forceStart();
     var circle = svg.selectAll("circle")
         .data(nodes)
         .enter().append("circle")
@@ -235,8 +239,70 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         .attr("fill",function(d,i){return color(i);});
 
     // Update nodes based on activity and duration
+    // d3.select("#chart")
+    //     .append("svg")
+    //     .attr("width", 50)
+    //     .attr("height", 50)
+    //     .attr("transform", "translate(50,-500)")
+    //     .append("circle")
+    //     .attr("cx", 10)
+    //     .attr("cy", 10)
+    //     .attr("r", 10)
+    //     .style("fill", "purple")
+    //     .on('click', function(d,i) {
+    //         var inactiveCoords = radialBeaconScale['INACTIVE']
+    //         data.map(function(dataPoint){
+    //             activeUsers[dataPoint['Attendee ID']]['beaconId'] = 'INACTIVE';
+    //         });
+    //         nodes.forEach(function(node) {
+    //             node.act = 'INACTIVE';
+    //             node.next = 'INACTIVE';
+    //             node.x = inactiveCoords.x;
+    //             node.y = inactiveCoords.y;
+    //         });
+    //         curr_minute = 1000;
+    //     });
+    var rectangle = svg.append("rect")
+        .attr("class", 'button')
+        .attr("x", 240)
+        .attr("y", 0)
+        .attr("width", 50)
+        .attr("height", 20)
+        .style("fill", "gray")
+        .on('click', function(d,i) {
+            // forceStart();
+            var inactiveCoords = radialBeaconScale['INACTIVE']
+            data.map(function(dataPoint){
+                activeUsers[dataPoint['Attendee ID']]['beaconId'] = 'INACTIVE';
+            });
+            nodes.forEach(function(node) {
+                node.act = 'INACTIVE';
+                node.next = 'INACTIVE';
+                node.x = inactiveCoords.x;
+                node.y = inactiveCoords.y;
+            });
+            curr_minute = 1000;
+        })
+        .append('text')
+        .attr('x', 0)
+        .attr('y', 0)
+        .text('hallo');
     var intervalId = window.setInterval(timer, 100);
     function timer() {
+        if(curr_minute === 1200) {
+            // var inactiveCoords = radialBeaconScale['INACTIVE']
+            // data.map(function(dataPoint){
+            //     activeUsers[dataPoint['Attendee ID']]['beaconId'] = 'INACTIVE';
+            // });
+            // nodes.forEach(function(node) {
+            //     node.act = 'INACTIVE';
+            //     node.next = 'INACTIVE';
+            //     node.x = inactiveCoords.x;
+            //     node.y = inactiveCoords.y;
+            // });
+            // curr_minute = 1000;
+            // debugger;
+        }
         currTimeMoment = moment(minDate, dateFormat).add(curr_minute, 'minutes');
 
         if (currTimeMoment.isAfter(moment(maxDate, dateFormat))) { // stop timer after last event
@@ -317,17 +383,3 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         };
     }
 }); // @end d3.csv
-
-
-// Output readable percent based on count.
-function readablePercent(n) {
-    var pct = 100 * n / 75;
-
-    if (pct < 1 && pct > 0) {
-        pct = "<1%";
-    } else {
-        pct = Math.round(pct) + "%";
-    }
-
-    return pct;
-}
