@@ -7,8 +7,8 @@ var radius = 4;
 var damper = 0.9;
 var curr_minute = 1100;
 var currTimeMoment;
-var radialX0 = 150;
-var radialY0 = 200;
+var radialX0 = 0;
+var radialY0 = 0;
 var xAdjust = 100;
 var yAdjust = 0;
 
@@ -84,25 +84,25 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         keysArr.forEach(function(key, index){
             switch (key) {
                 case "Beacon1":
-                    coordArray[key] = {x: 580 + xAdjust, y: 410}; // entrance - left
+                    coordArray[key] = {x: 580 + xAdjust +x0, y: 410 + y0}; // entrance - left
                     break;
                 case "B42YDUJ":
-                    coordArray[key] = {x: 750 + xAdjust, y: 410}; // entrance - right
+                    coordArray[key] = {x: 750 + xAdjust +x0, y: 410 + y0}; // entrance - right
                     break;
                 case "B134EQBK":
-                    coordArray[key] = {x: 630 + xAdjust, y: 510}; // coat room
+                    coordArray[key] = {x: 630 + xAdjust +x0, y: 510 + y0}; // coat room
                     break;
                 case "B135TISL":
-                    coordArray[key] = {x: 660 + xAdjust, y: 460}; // entrance - bottom
+                    coordArray[key] = {x: 660 + xAdjust +x0, y: 460 + y0}; // entrance - bottom
                     break;
                 case "B122ODGI":
-                    coordArray[key] = {x: 720 + xAdjust, y: 120}; // logistics
+                    coordArray[key] = {x: 720 + xAdjust +x0, y: 120 + y0}; // logistics
                     break;
                 case "B133RHQY":
-                    coordArray[key] = {x: 660 + xAdjust, y: 360}; // entrance - top
+                    coordArray[key] = {x: 660 + xAdjust +x0, y: 360 + y0}; // entrance - top
                     break;
                 case "B1XCBN":
-                    coordArray[key] = {x: 250 + xAdjust, y: 410}; // bottom left
+                    coordArray[key] = {x: 250 + xAdjust +x0, y: 410 + y0}; // bottom left
                     //coordArray[key] = {x: 0, y: 0};
                     break;
             }
@@ -175,9 +175,9 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
     beaconKeys.splice(indexOfInactiveBeacon, 1);
     var radialBeaconScaleX0 = radialX0;
     var radialBeaconScaleY0 = radialY0;
-    var radialBeaconScale = mapScale(radialBeaconScaleX0, radialBeaconScaleY0, 150, beaconKeys);
+    var radialBeaconScale = mapScale(0, 0, 150, beaconKeys);
     radialBeaconScale['INACTIVE'] = {x: 560, y: 260};
-debugger;
+
     //                     _
     //  _ __ ___ _ __   __| | ___ _ __
     // | '__/ _ | '_ \ / _` |/ _ | '__|
@@ -185,16 +185,18 @@ debugger;
     // |_|  \___|_| |_|\__,_|\___|_|
     // axes (note: placing the text labels on x and y axes)
     // x.domain(d3.map(data, function(d) { return d.grp; }).keys());
-    var radialBeaconScaleTicks = mapScale(radialBeaconScaleX0, radialBeaconScaleY0, 250, beaconKeys);
+    var radialBeaconScaleTicks = mapScale(-20, -20, 150, beaconKeys);
     x.domain(['beacons']);
-    //beaconKeys.map(function(beaconName){
+    // beaconKeys.map(function(beaconName){
     //    var coords = radialBeaconScaleTicks[beaconName];
     //
     //    svg.append("text")
     //        .attr("x", coords.x - 40)
     //        .attr("y", coords.y)
+    //        .style('fill', 'black')
+    //        .attr("class", 'beacon-tick')
     //        .text(beaconName);
-    //});
+    // });
 
     var nodes = [];
     for (userId in activeUsers) {

@@ -172,6 +172,7 @@ d3.csv("data/qm_beacons.csv", function(error, data) {
         svg.append("text")
             .attr("x", coords.x - 40)
             .attr("y", coords.y)
+            .attr("class", 'beacon-tick')
             .text(beaconName);
     });
 
